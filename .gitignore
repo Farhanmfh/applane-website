@@ -10,3 +10,6 @@ npm-debug.log*
 
 # Internal project brief (owner notes, client details). Keep out of the public repo.
 applane.md
+
+# Upload bundle from `npm run zip`
+applane-site.zip

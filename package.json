@@ -8,6 +8,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "zip": "astro build && node scripts/zip-dist.mjs",
     "og": "node scripts/make-og.mjs"
   },
   "dependencies": {

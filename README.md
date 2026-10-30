@@ -9,14 +9,30 @@ Built with [Astro](https://astro.build) as a fully static site. No backend, no C
 ```bash
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # outputs to dist/
+npm run build      # static export to dist/
 npm run preview    # serve the built site
+npm run zip        # build, then pack dist/ into applane-site.zip for upload
 npm run og         # regenerate public/og.png and the PNG icons
 ```
 
 Node 22.23.4 or newer is required (Astro 7).
 
-## Deploy (Firebase Hosting)
+## Deploy (Hostinger / cPanel)
+
+The site is fully static: `npm run build` writes plain HTML, CSS and JS to `dist/`. `public/.htaccess` is copied in and handles the 404 page, HTTPS, `www` → `applane.in`, caching, compression and security headers.
+
+1. Run `npm run zip`. This creates `applane-site.zip` with the **contents** of `dist/`, including `.htaccess`.
+2. In hPanel (Hostinger) or cPanel, open **File Manager** → `public_html`.
+3. First time only: delete the host's placeholder `index.html` / `default.php` if there is one.
+4. Upload `applane-site.zip`, right-click it → **Extract** into `public_html`, then delete the zip.
+5. Turn on SSL for the domain (hPanel → Security → SSL, or cPanel → SSL/TLS Status) so the HTTPS redirect has a certificate to use.
+6. Check `https://applane.in/`, `https://applane.in/work/`, a made-up URL (should show the 404 page) and `https://www.applane.in/` (should redirect).
+
+To update the site, repeat steps 1, 2 and 4. Extracting overwrites the old files. Old hashed files in `_astro/` are harmless, but you can clear that folder before extracting.
+
+If the DNS is on Cloudflare with its proxy on, set Cloudflare SSL to **Full**, not Flexible.
+
+## Deploy (Firebase Hosting, alternative)
 
 `firebase.json` is already set up for the `dist/` folder, with trailing slashes, long-cache headers for `/_astro/*` and basic security headers.
 
