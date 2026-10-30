@@ -1,0 +1,67 @@
+---
+import type { QA } from '../schema';
+interface Props { items: QA[]; title?: string; lede?: string }
+const { items, title = 'Questions people ask', lede } = Astro.props;
+---
+<section class="section faq" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <div class="faq__head">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-title" data-split>{title}</h2>
+      {lede && <p class="lede" data-reveal>{lede}</p>}
+    </div>
+    <div class="faq__list">
+      {items.map((f, i) => (
+        <details class="faq__item" data-reveal style={`--d:${i * 60}`} open={i === 0}>
+          <summary><h3>{f.q}</h3><span class="faq__icon" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>{f.a}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid { display: grid; gap: 40px; }
+  @media (min-width: 960px) {
+    .faq__grid { grid-template-columns: 0.9fr 1.4fr; gap: 80px; }
+    .faq__head { position: sticky; top: calc(var(--header-h) + 32px); align-self: start; }
+  }
+  .faq__list { border-top: 1px solid var(--line); }
+  .faq__item { border-bottom: 1px solid var(--line); interpolate-size: allow-keywords; }
+  .faq__item summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 0;
+    cursor: pointer;
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item h3 { font-size: var(--step-1); margin: 0; letter-spacing: -0.02em; font-weight: 600; }
+  .faq__icon {
+    width: 36px; height: 36px; flex: none;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    position: relative;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.5s var(--ease);
+  }
+  .faq__icon::before, .faq__icon::after {
+    content: ''; position: absolute; left: 50%; top: 50%;
+    width: 12px; height: 1.8px; background: currentColor; border-radius: 2px;
+    transform: translate(-50%, -50%);
+  }
+  .faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 0.4s var(--ease); }
+  .faq__item[open] .faq__icon { background: var(--ink); border-color: var(--ink); color: #fff; transform: rotate(180deg); }
+  .faq__item[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .faq__item summary:hover .faq__icon { border-color: var(--ink); }
+  .faq__a { padding: 0 56px 24px 0; color: var(--ink-2); }
+  .faq__a p { margin: 0; }
+  .faq__item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.5s var(--ease), content-visibility 0.5s allow-discrete;
+  }
+  .faq__item[open]::details-content { block-size: auto; }
+</style>

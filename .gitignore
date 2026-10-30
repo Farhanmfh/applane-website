@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.firebase/
+.env
+.env.*
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# Internal project brief (owner notes, client details). Keep out of the public repo.
+applane.md

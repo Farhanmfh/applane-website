@@ -1,0 +1,181 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { PHONE, WA } from '../consts';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Contact', href: '/contact/' },
+];
+---
+<Base
+  title="Contact Applane | WhatsApp +91 83319 70886 | Hyderabad"
+  description="Chat with Applane on WhatsApp or call +91 83319 70886. Tell us what you need: a custom app or a website. Static sites from ₹1,999. Based in Hyderabad."
+  crumbs={crumbs}
+  pageType="ContactPage"
+>
+  <PageHero
+    eyebrow="Contact"
+    title={'Tell us <span class="mark">what you need.</span>'}
+    lede="WhatsApp is the fastest way to reach us. Send a message, a photo of your bill, or a voice note. We'll take it from there."
+    crumbs={crumbs}
+  />
+
+  <section class="section contact" aria-label="Ways to contact us">
+    <div class="wrap contact__grid">
+      <div class="contact__ways">
+        <a class="way way--wa" href={WA.general} target="_blank" rel="noopener" data-reveal>
+          <span class="way__icon"><Icon name="whatsapp" size={30} /></span>
+          <span class="way__body">
+            <span class="way__label">Chat on WhatsApp</span>
+            <span class="way__value">{PHONE.display}</span>
+            <span class="way__hint">Fastest reply. Send text, photos or voice notes.</span>
+          </span>
+          <Icon name="arrowUpRight" class="way__go" />
+        </a>
+        <a class="way" href={`tel:${PHONE.e164}`} data-reveal style="--d:100">
+          <span class="way__icon"><Icon name="phone" size={26} /></span>
+          <span class="way__body">
+            <span class="way__label">Call us</span>
+            <span class="way__value">{PHONE.display}</span>
+            <span class="way__hint">Prefer to talk? Call the same number.</span>
+          </span>
+          <Icon name="arrowUpRight" class="way__go" />
+        </a>
+        <div class="way way--static" data-reveal style="--d:200">
+          <span class="way__icon"><Icon name="pin" size={26} /></span>
+          <span class="way__body">
+            <span class="way__label">Where we are</span>
+            <span class="way__value">Hyderabad, Telangana</span>
+            <span class="way__hint">We work with businesses across India over WhatsApp and phone.</span>
+          </span>
+        </div>
+      </div>
+
+      <form class="composer" id="composer" data-reveal="scale" style="--d:150" novalidate>
+        <h2>Write it here, send it on WhatsApp</h2>
+        <p class="composer__note">Fill this in and we'll open WhatsApp with your message ready. Nothing is stored on this website.</p>
+
+        <fieldset class="seg">
+          <legend>What do you need?</legend>
+          <label><input type="radio" name="need" value="A custom app" checked /><span>An app</span></label>
+          <label><input type="radio" name="need" value="A website" /><span>A website</span></label>
+          <label><input type="radio" name="need" value="Not sure yet" /><span>Not sure</span></label>
+        </fieldset>
+
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Your name" />
+        </div>
+        <div class="field">
+          <label for="c-biz">Your business</label>
+          <select id="c-biz" name="biz">
+            <option value="">Choose one</option>
+            <option>Distributor / agency</option>
+            <option>Gym or fitness studio</option>
+            <option>Clinic</option>
+            <option>Shop / retail</option>
+            <option>Restaurant / cafe</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-msg">Tell us a little</label>
+          <textarea id="c-msg" name="msg" rows="4" placeholder="How do you work today? What would you like to change?"></textarea>
+        </div>
+        <button class="btn btn--wa composer__send" type="submit"><Icon name="whatsapp" /> Open WhatsApp with my message</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { padding-top: 0; }
+  .contact__grid { display: grid; gap: 32px; align-items: start; }
+  @media (min-width: 1000px) { .contact__grid { grid-template-columns: 1fr 1.1fr; gap: 56px; } }
+  .contact__ways { display: grid; gap: 14px; }
+  .way {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 22px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), border-color 0.3s;
+  }
+  a.way:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--green); }
+  .way__icon { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--mint); color: var(--green-ink); }
+  .way--wa { background: var(--green-ink); color: #fff; border-color: var(--green-ink); }
+  .way--wa .way__icon { background: rgb(255 255 255 / 0.16); color: #fff; }
+  .way--wa .way__hint { color: #d5f3e2 !important; }
+  .way__body { display: grid; gap: 2px; min-width: 0; }
+  .way__label { font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; opacity: 0.8; }
+  .way__value { font-family: var(--font-head); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+  .way__hint { font-size: 0.92rem; color: var(--ink-3); }
+  .way :global(.way__go) { width: 22px; height: 22px; transition: transform 0.4s var(--ease); }
+  a.way:hover :global(.way__go) { transform: translate(3px, -3px); }
+
+  .composer {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(22px, 4vw, 40px);
+    display: grid;
+    gap: 18px;
+    box-shadow: var(--shadow);
+  }
+  .composer h2 { font-size: var(--step-2); margin: 0; }
+  .composer__note { color: var(--ink-3); font-size: 0.94rem; margin: -8px 0 4px; }
+  .seg { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg legend { font-weight: 600; font-size: 0.94rem; margin-bottom: 10px; padding: 0; }
+  .seg label { position: relative; }
+  .seg input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .seg span {
+    display: inline-block; padding: 10px 18px; border-radius: 999px;
+    border: 1.5px solid var(--line); font-weight: 600; font-size: 0.95rem;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .seg input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .seg input:focus-visible + span { outline: 3px solid var(--green-bright); outline-offset: 2px; }
+  .field { display: grid; gap: 6px; }
+  .field label { font-weight: 600; font-size: 0.94rem; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1.5px solid var(--line);
+    background: var(--bg);
+    font-size: 1rem;
+    transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+  }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--green); background: #fff; box-shadow: 0 0 0 4px rgb(24 210 110 / 0.18);
+  }
+  .composer__send { width: 100%; }
+</style>
+
+<script>
+  import { waLink } from '../consts';
+  const form = document.querySelector<HTMLFormElement>('#composer');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const need = String(data.get('need') || '').trim();
+    const biz = String(data.get('biz') || '').trim();
+    const msg = String(data.get('msg') || '').trim();
+    const lines = [
+      `Hi Applane${name ? `, this is ${name}` : ''}.`,
+      need && `I need: ${need}`,
+      biz && `My business: ${biz}`,
+      msg && `\n${msg}`,
+    ].filter(Boolean);
+    window.open(waLink(lines.join('\n')), '_blank', 'noopener');
+  });
+</script>

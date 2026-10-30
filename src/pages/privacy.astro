@@ -1,0 +1,74 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { PHONE, WA } from '../consts';
+---
+<Legal
+  title="Privacy Policy | Applane"
+  heading="Privacy policy"
+  description="How Applane collects, uses and protects personal data on applane.in and in Applane apps, including data received through Sign in with Google."
+  path="/privacy/"
+  updated="30 October 2026"
+>
+  <p>This policy explains what personal data Applane ("we", "us") collects, why, and what we do with it. It covers this website, <strong>applane.in</strong>, and the apps we run on its subdomains (for example <strong>billing.applane.in</strong>). We keep it in plain language. If anything is unclear, ask us on WhatsApp.</p>
+
+  <h2>1. This website</h2>
+  <ul>
+    <li><strong>No accounts, no forms that store data.</strong> The contact form on this site only prepares a WhatsApp message on your device. Nothing you type is sent to or stored by this website.</li>
+    <li><strong>No advertising or tracking cookies.</strong> This site does not use advertising cookies or cross-site tracking.</li>
+    <li><strong>Server logs.</strong> Our hosting provider may keep standard technical logs (such as IP address, browser type and the pages requested) for security and to keep the site running.</li>
+    <li><strong>WhatsApp and phone.</strong> When you message or call us, we receive your phone number, name (as set in WhatsApp) and what you send. We use it only to reply to you and to prepare a quote.</li>
+  </ul>
+
+  <h2>2. Applane apps</h2>
+  <p>Our apps are used by businesses that are our clients, and by their staff. In the apps we process:</p>
+  <ul>
+    <li><strong>Sign-in details.</strong> When you sign in with Google, we receive your name, email address and profile picture from your Google account.</li>
+    <li><strong>Business data your business enters.</strong> For example items, rates, bills, payments, dues, customers, members and attendance records.</li>
+    <li><strong>Activity records.</strong> Some apps keep an audit log of who created, edited or cancelled a record, and when.</li>
+  </ul>
+
+  <h3>How we use Google user data</h3>
+  <p>We use the name, email address and profile picture we receive from Google only to sign you in, to identify your account, and to show who did what inside the app (for example, which staff member created a bill). We do not use Google user data for advertising, we do not sell it, and we do not share it with anyone except as needed to run the app (see section 4).</p>
+  <p>Applane's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h2>3. Why we process data</h2>
+  <ul>
+    <li>To provide the apps and the website, and to support you.</li>
+    <li>To keep accounts secure and records accurate.</li>
+    <li>To prepare quotes and keep in touch about work you asked us for.</li>
+    <li>To meet legal obligations.</li>
+  </ul>
+
+  <h2>4. Who we share data with</h2>
+  <p>We do not sell personal data. We share it only with:</p>
+  <ul>
+    <li><strong>Service providers</strong> that host and run our website and apps (for example cloud hosting and database providers), under their terms and only to provide the service.</li>
+    <li><strong>The business you work with.</strong> Data in a client's app belongs to that client and is visible to the people they give access to.</li>
+    <li><strong>Authorities</strong>, when the law requires it.</li>
+  </ul>
+
+  <h2>5. How long we keep data</h2>
+  <p>We keep business data for as long as the client uses the app, or as long as the law requires for business and tax records. Sign-in details are kept while the account is active. When a client stops using an app, we delete or return their data on request, except where we must keep it by law.</p>
+
+  <h2>6. Security</h2>
+  <p>Data is sent over encrypted connections (HTTPS). Access inside the apps is limited by role: for example, staff can create bills but only owners can edit or cancel them. No system is perfectly secure, but we work to protect your data and fix issues quickly.</p>
+
+  <h2>7. Your choices and rights</h2>
+  <ul>
+    <li>Ask us what personal data we hold about you, and ask us to correct or delete it.</li>
+    <li>Remove Applane's access to your Google account at any time from your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google account permissions</a>.</li>
+    <li>If you are a staff member of one of our clients, some requests may need to go through your employer, because the business data belongs to them.</li>
+  </ul>
+  <p>We handle personal data in line with applicable Indian law, including the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023.</p>
+
+  <h2>8. Children</h2>
+  <p>Our website and apps are made for businesses and are not directed at children.</p>
+
+  <h2>9. Changes to this policy</h2>
+  <p>If we change this policy, we will update it here and change the date at the top.</p>
+
+  <h2>10. Contact</h2>
+  <p>Applane, Hyderabad, Telangana, India.<br />
+  WhatsApp: <a href={WA.general} target="_blank" rel="noopener">{PHONE.display}</a><br />
+  Phone: <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a></p>
+</Legal>

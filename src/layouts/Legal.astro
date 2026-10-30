@@ -1,0 +1,32 @@
+---
+import Base from './Base.astro';
+import PageHero from '../components/PageHero.astro';
+interface Props { title: string; heading: string; description: string; path: string; updated: string }
+const { title, heading, description, path, updated } = Astro.props;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: heading, href: path },
+];
+---
+<Base title={title} description={description} crumbs={crumbs}>
+  <PageHero eyebrow="Legal" title={heading} lede={`Last updated ${updated}`} crumbs={crumbs} />
+  <section class="section legal">
+    <div class="wrap">
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding-top: 0; }
+  .legal :global(.prose) {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 5vw, 56px);
+    max-width: 860px;
+  }
+  .legal :global(.prose h2:first-child) { margin-top: 0; }
+</style>

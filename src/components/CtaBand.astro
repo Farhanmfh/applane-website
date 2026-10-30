@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import { PHONE, WA } from '../consts';
+interface Props { title?: string; text?: string; waHref?: string; waLabel?: string }
+const {
+  title = 'Tell us what you need.',
+  text = 'Send us a message about your business on WhatsApp. We will tell you how we would build it and what it would cost.',
+  waHref = WA.quote,
+  waLabel = 'Get a quote on WhatsApp',
+} = Astro.props;
+---
+<section class="cta" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta__box" data-reveal="scale">
+      <svg class="cta__lanes" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
+        {Array.from({ length: 9 }, (_, i) => (
+          <path d={`M${400 + (i - 4) * 18} 0 L${400 + (i - 4) * 150} 400`} />
+        ))}
+      </svg>
+      <div class="cta__body">
+        <h2 id="cta-title" data-split>{title}</h2>
+        <p>{text}</p>
+        <div class="btn-row">
+          <a class="btn btn--bright" href={waHref} target="_blank" rel="noopener"><Icon name="whatsapp" /> {waLabel}</a>
+          <a class="btn btn--ghost" href={`tel:${PHONE.e164}`}><Icon name="phone" /> Call {PHONE.display}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: clamp(48px, 7vw, 96px); }
+  .cta__box {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(120% 140% at 50% 0%, #0f7a43 0%, #08361f 55%, var(--dark) 100%);
+    color: #fff;
+    padding: clamp(40px, 7vw, 96px) clamp(22px, 6vw, 80px);
+    text-align: center;
+  }
+  .cta__lanes { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.35; }
+  .cta__lanes path {
+    fill: none; stroke: var(--green-bright); stroke-width: 1.2; stroke-dasharray: 6 14;
+    animation: lane-flow 2.4s linear infinite;
+    vector-effect: non-scaling-stroke;
+  }
+  @keyframes lane-flow { to { stroke-dashoffset: -40; } }
+  .cta__body { position: relative; max-width: 720px; margin-inline: auto; }
+  .cta__body h2 { color: #fff; }
+  .cta__body p { color: #cfe6d9; font-size: var(--step-1); margin-bottom: 32px; }
+  .cta .btn-row { justify-content: center; }
+  .cta .btn--ghost { --btn-fg: #fff; border-color: rgb(255 255 255 / 0.3); }
+  .cta .btn--ghost:hover { border-color: #fff; }
+</style>

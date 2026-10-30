@@ -1,0 +1,306 @@
+---
+import Base from '../layouts/Base.astro';
+import HomeStage from '../components/HomeStage.astro';
+import BillMock from '../components/BillMock.astro';
+import GymMock from '../components/GymMock.astro';
+import ToothArt from '../components/ToothArt.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { WA } from '../consts';
+import { faqPage, staticSiteOffer, ORG_ID } from '../schema';
+
+const faqs = [
+  {
+    q: 'How much does a website cost?',
+    a: 'Static websites start at ₹1,999. That is a one-time price, and it includes the first year of hosting. The domain name is charged separately. Websites with an admin panel, online stores and 3D or animated websites are quoted once we know what you need.',
+  },
+  {
+    q: 'How much does a custom app cost?',
+    a: 'It depends on what you need. Every app is built around one business, so we look at how you work and then give you a quote. We keep it affordable for small businesses.',
+  },
+  {
+    q: 'Do I have to change how my business works?',
+    a: 'No. That is the whole idea. We build the app around your items, your bill format and your staff roles, so you do not have to bend your business to fit a generic app.',
+  },
+  {
+    q: 'Who sets up the app and enters our data?',
+    a: 'We do. We load your items and customers, set up your staff logins and train your team. You do not start with an empty app.',
+  },
+  {
+    q: 'Which devices does it work on?',
+    a: 'Our apps work on phone, tablet and desktop. Applane Billing can also be installed on the home screen like a regular app.',
+  },
+  {
+    q: 'How do I get support?',
+    a: 'On WhatsApp and phone. You talk to the people who built your app, not a help page.',
+  },
+  {
+    q: 'Where are you based?',
+    a: 'We are in Hyderabad, Telangana. We work with businesses across Hyderabad and Telangana, and with businesses anywhere in India over WhatsApp and phone.',
+  },
+];
+
+const services = {
+  '@type': 'OfferCatalog',
+  name: 'Applane services',
+  itemListElement: [
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom app development', provider: { '@id': ORG_ID }, areaServed: 'IN' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Website design and development', provider: { '@id': ORG_ID }, areaServed: 'IN' } },
+    { ...staticSiteOffer, itemOffered: { '@type': 'Service', name: 'Static website', provider: { '@id': ORG_ID } } },
+  ],
+};
+
+const industries = ['Distributors', 'Agencies', 'Gyms', 'Clinics', 'Shops', 'Brands', 'Hyderabad', 'Telangana'];
+---
+<Base
+  title="Custom Apps & Website Design in Hyderabad | Applane"
+  description="Custom apps built around how your business works, like distributor billing and gym management, plus premium 3D websites. Static sites from ₹1,999. Hyderabad."
+  headerTone="dark"
+  schema={[faqPage(faqs), services]}
+>
+  <HomeStage />
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {[0, 1].map(() => (
+        <div class="marquee__group">
+          {industries.map((w) => (<><span>{w}</span><i>✦</i></>))}
+        </div>
+      ))}
+    </div>
+  </div>
+  <p class="sr-only">We work with distributors, agencies, gyms, clinics, shops and brands in Hyderabad and Telangana.</p>
+
+  <!-- WORK -->
+  <section class="section" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Our work</p>
+          <h2 id="work-title" data-split>Built for real businesses, <span class="mark">around how they work.</span></h2>
+        </div>
+        <a class="link-arrow" href="/work/" data-reveal>All apps <Icon name="arrow" /></a>
+      </div>
+
+      <article class="proj" aria-labelledby="p-billing">
+        <div class="proj__text" data-reveal>
+          <div class="chip-row"><span class="chip">App</span><span class="chip chip--line">Distributors · FMCG · Dairy</span></div>
+          <h3 id="p-billing">Applane Billing</h3>
+          <p class="proj__lede">Bill retailers at today's price, not the factory software's price from six months ago.</p>
+          <ul class="ticks">
+            <li>Change any rate, any time</li>
+            <li>Proper GST bill with HSN, CGST and SGST, on A4 or WhatsApp</li>
+            <li>Counter sales on a tablet, and every due in one place</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--wa" href={WA.billingDemo} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a free demo</a>
+            <a class="btn btn--ghost" href="/work/distributor-billing-software/">How it works</a>
+          </div>
+        </div>
+        <div class="proj__visual proj__visual--bill" data-reveal="scale" style="--d:150">
+          <BillMock class="tilt" />
+        </div>
+      </article>
+
+      <article class="proj proj--flip" aria-labelledby="p-gym">
+        <div class="proj__text" data-reveal>
+          <div class="chip-row"><span class="chip">App</span><span class="chip chip--line">Gyms · Fitness studios</span></div>
+          <h3 id="p-gym">Gym Owners</h3>
+          <p class="proj__lede">Run your gym without living at the front desk.</p>
+          <ul class="ticks">
+            <li>Members, plans, renewals and payments</li>
+            <li>Connects to your face or fingerprint door terminal</li>
+            <li>See who has stopped coming, before their plan runs out</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--wa" href={WA.gymDemo} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a free demo</a>
+            <a class="btn btn--ghost" href="/work/gym-management-software/">How it works</a>
+          </div>
+        </div>
+        <div class="proj__visual proj__visual--gym" data-reveal="scale" style="--d:150">
+          <GymMock class="tilt" />
+        </div>
+      </article>
+
+      <article class="proj" aria-labelledby="p-dento">
+        <div class="proj__text" data-reveal>
+          <div class="chip-row"><span class="chip">Website</span><span class="chip chip--line">Dental clinic · Hyderabad</span></div>
+          <h3 id="p-dento">Dentologie</h3>
+          <p class="proj__lede">A dental clinic website rebuilt in code, with a 3D tooth that assembles from scan particles.</p>
+          <ul class="ticks">
+            <li>Real-time 3D and scroll-driven stories for each treatment</li>
+            <li>Smile finder, shade simulator and fee explorer</li>
+            <li>Fully static, fast on phones, old URLs kept for Google</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--ink" href="/websites/#dentologie">Read the case study <Icon name="arrow" /></a>
+          </div>
+        </div>
+        <div class="proj__visual proj__visual--dento" data-reveal="scale" style="--d:150">
+          <ToothArt />
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="section section--mint" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Why Applane</p>
+          <h2 id="why-title" data-split>Off-the-shelf apps make you fit the software. <span class="mark">We fit the software to you.</span></h2>
+        </div>
+      </div>
+      <div class="vs">
+        <div class="vs__col vs__col--them" data-reveal>
+          <h3>A generic app</h3>
+          <ul>
+            <li>You change how you work to fit it</li>
+            <li>A fixed bill format that isn't yours</li>
+            <li>You type in all your items and customers</li>
+            <li>A login and a help page</li>
+          </ul>
+        </div>
+        <div class="vs__col vs__col--us" data-reveal style="--d:150">
+          <h3>An Applane app</h3>
+          <ul>
+            <li>Built around how you already work</li>
+            <li>Your bill format, your items, your staff roles</li>
+            <li>We load your data for you</li>
+            <li>Setup, staff training, and support on WhatsApp and phone</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="section" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">How we work</p>
+          <h2 id="how-title" data-split>Three steps. <span class="mark">No jargon.</span></h2>
+        </div>
+        <a class="link-arrow" href="/how-we-work/" data-reveal>More on how we work <Icon name="arrow" /></a>
+      </div>
+      <Steps />
+    </div>
+  </section>
+
+  <!-- PRICE -->
+  <section class="section section--dark price" aria-labelledby="price-title">
+    <div class="wrap price__grid">
+      <div>
+        <p class="eyebrow">Websites</p>
+        <h2 id="price-title" data-split>A fast, good-looking website from</h2>
+        <p class="price__big"><span data-count="1999" data-prefix="₹">₹1,999</span></p>
+        <p class="price__terms">One-time price · first year of hosting included · domain charged separately</p>
+      </div>
+      <div class="price__side" data-reveal style="--d:200">
+        <p>Need more? Websites with an admin panel, online stores, 3D and animated websites, and custom apps are quoted for your business. We keep it affordable for small businesses.</p>
+        <div class="btn-row">
+          <a class="btn btn--bright" href={WA.staticSite} target="_blank" rel="noopener"><Icon name="whatsapp" /> Start my website</a>
+          <a class="btn btn--ghost" href="/websites/#pricing">See all website options</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqs} lede="Short answers. If yours isn't here, ask us on WhatsApp." />
+
+  <CtaBand />
+</Base>
+
+<style>
+  .marquee {
+    background: var(--green-ink);
+    color: #fff;
+    overflow: hidden;
+    padding: 18px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .marquee__track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+  .marquee__group { display: flex; align-items: center; gap: 28px; padding-right: 28px; }
+  .marquee span { font-family: var(--font-head); font-weight: 600; font-size: clamp(1.2rem, 2.4vw, 1.9rem); letter-spacing: -0.03em; white-space: nowrap; }
+  .marquee i { font-style: normal; color: var(--green-bright); font-size: 0.9rem; }
+
+  .proj {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+    padding-block: clamp(36px, 6vw, 72px);
+    border-top: 1px solid var(--line);
+  }
+  .proj:first-of-type { border-top: 0; padding-top: 0; }
+  .proj h3 { font-size: var(--step-4); letter-spacing: -0.04em; margin: 18px 0 12px; }
+  .proj__lede { font-size: var(--step-1); color: var(--ink-2); max-width: 44ch; }
+  .proj .ticks { margin: 22px 0 30px; }
+  .proj__visual { position: relative; border-radius: var(--radius-lg); padding: clamp(18px, 4vw, 48px); }
+  .proj__visual--bill { background: linear-gradient(150deg, var(--mint), #c9ecd7); }
+  .proj__visual--gym { background: linear-gradient(150deg, #efe7cf, #e3d6ae); }
+  .proj__visual--dento { background: radial-gradient(80% 80% at 50% 40%, #13241c, var(--dark)); padding-block: clamp(36px, 6vw, 64px); }
+  .proj__visual :global(.bill), .proj__visual :global(.gym) { max-width: 440px; margin-inline: auto; }
+  .btn--ink { --btn-bg: var(--ink); }
+  @media (min-width: 960px) {
+    .proj { grid-template-columns: 1fr 1.05fr; gap: 72px; }
+    .proj--flip .proj__text { order: 2; }
+  }
+  /* Subtle 3D tilt on the mock-ups (desktop pointer only). */
+  @media (hover: hover) and (min-width: 960px) {
+    .proj__visual { perspective: 1200px; }
+    .proj__visual :global(.tilt) {
+      transform: rotateY(-8deg) rotateX(4deg);
+      transition: transform 0.9s var(--ease);
+    }
+    .proj--flip .proj__visual :global(.tilt) { transform: rotateY(8deg) rotateX(4deg); }
+    .proj__visual:hover :global(.tilt) { transform: none; }
+  }
+
+  .vs { display: grid; gap: 16px; }
+  @media (min-width: 820px) { .vs { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  .vs__col { border-radius: var(--radius-lg); padding: clamp(26px, 4vw, 44px); }
+  .vs__col h3 { font-size: var(--step-2); margin-bottom: 22px; }
+  .vs__col ul { list-style: none; display: grid; gap: 14px; }
+  .vs__col li { position: relative; padding-left: 34px; font-size: var(--step-1); line-height: 1.4; }
+  .vs__col li::before {
+    content: ''; position: absolute; left: 0; top: 0.12em; width: 22px; height: 22px; border-radius: 50%;
+    background-position: center; background-size: 12px; background-repeat: no-repeat;
+  }
+  .vs__col--them { background: rgb(255 255 255 / 0.55); color: var(--ink-2); }
+  .vs__col--them li::before {
+    background-color: #e7ebe8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7570' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E");
+  }
+  .vs__col--us { background: var(--ink); color: #fff; box-shadow: 0 30px 60px -30px rgb(12 19 16 / 0.6); }
+  .vs__col--us h3 { color: var(--green-bright); }
+  .vs__col--us li::before {
+    background-color: var(--green-bright);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C1310' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  }
+
+  .price { overflow: hidden; }
+  .price::before {
+    content: ''; position: absolute; width: 60vw; height: 60vw; right: -20vw; top: -30vw; border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(24 210 110 / 0.18), transparent);
+  }
+  .price__grid { display: grid; gap: 40px; align-items: end; position: relative; }
+  .price h2 { font-size: var(--step-3); margin-bottom: 0.2em; }
+  .price__big {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(4.5rem, 3rem + 9vw, 11rem);
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+    margin: 0 0 18px;
+    color: var(--green-bright) !important;
+    font-variant-numeric: tabular-nums;
+  }
+  .price__terms { font-size: var(--step-0); color: #cfe0d6 !important; margin: 0; }
+  .price__side p { font-size: var(--step-1); margin-bottom: 28px; }
+  @media (min-width: 960px) { .price__grid { grid-template-columns: 1.3fr 1fr; gap: 80px; } }
+</style>

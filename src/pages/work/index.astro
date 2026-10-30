@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import BillMock from '../../components/BillMock.astro';
+import GymMock from '../../components/GymMock.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { WA } from '../../consts';
+import { ORG_ID } from '../../schema';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Apps', href: '/work/' },
+];
+
+const list = {
+  '@type': 'ItemList',
+  name: 'Apps built by Applane',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, url: 'https://applane.in/work/distributor-billing-software/', name: 'Applane Billing' },
+    { '@type': 'ListItem', position: 2, url: 'https://applane.in/work/gym-management-software/', name: 'Gym Owners' },
+  ],
+};
+const service = {
+  '@type': 'Service',
+  name: 'Custom app development',
+  serviceType: 'Custom software development',
+  provider: { '@id': ORG_ID },
+  areaServed: [{ '@type': 'City', name: 'Hyderabad' }, { '@type': 'Country', name: 'India' }],
+  description: 'Custom apps built around how each business already works: its items, bill format, staff roles and devices. Includes setup, data loading, staff training and WhatsApp support.',
+};
+---
+<Base
+  title="Custom App Development in Hyderabad | Apps by Applane"
+  description="Custom apps built around how your business works: distributor billing software with GST bills, and gym management with biometric access. Setup included."
+  crumbs={crumbs}
+  schema={[list, service]}
+  pageType="CollectionPage"
+>
+  <PageHero
+    eyebrow="Apps"
+    title={'Apps shaped around <span class="mark">your business.</span>'}
+    lede="We don't sell one app that everyone gets a copy of. Each app is built around how a business already works: its items, its bill format, its staff roles, its devices."
+    crumbs={crumbs}
+  >
+    <div class="btn-row">
+      <a class="btn btn--wa" href={WA.quote} target="_blank" rel="noopener"><Icon name="whatsapp" /> Tell us what you need</a>
+    </div>
+  </PageHero>
+
+  <section class="section section--white" aria-label="Our apps">
+    <div class="wrap apps">
+      <a class="app" href="/work/distributor-billing-software/" data-reveal>
+        <div class="app__visual app__visual--bill"><BillMock /></div>
+        <div class="app__body">
+          <div class="chip-row"><span class="chip chip--dot">In testing with a Hyderabad distributor</span></div>
+          <h2>Applane Billing</h2>
+          <p class="app__for">For distributors and agencies: FMCG, ice cream, dairy.</p>
+          <p>Bill retailers at your own prices, print a proper GST bill, run the counter on a tablet, and keep every due in one place. It runs alongside your factory software.</p>
+          <span class="link-arrow">See how it works <Icon name="arrow" /></span>
+        </div>
+      </a>
+
+      <a class="app" href="/work/gym-management-software/" data-reveal style="--d:150">
+        <div class="app__visual app__visual--gym"><GymMock /></div>
+        <div class="app__body">
+          <div class="chip-row"><span class="chip chip--line">Gym management</span></div>
+          <h2>Gym Owners</h2>
+          <p class="app__for">For gym owners who don't want to live at the front desk.</p>
+          <p>Members, plans and renewals, connected to your face or fingerprint door terminal. Attendance comes straight from door check-ins.</p>
+          <span class="link-arrow">See how it works <Icon name="arrow" /></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="else-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Something else?</p>
+          <h2 id="else-title" data-split>Your business isn't on this list? <span class="mark">That's normal.</span></h2>
+          <p class="lede" data-reveal>Every app we make starts with how one business works. Shops, clinics, agencies, service businesses: tell us what you do today, on paper or in a spreadsheet, and we will tell you how we would build it.</p>
+        </div>
+      </div>
+      <div class="grid grid--4">
+        {[
+          { i: 'edit', t: 'Built around you', d: 'Your items, your rates, your bill format and your staff roles.' },
+          { i: 'database', t: 'Your data loaded', d: 'We import your items and customers, so day one is not an empty screen.' },
+          { i: 'graduation', t: 'Staff trained', d: 'We show your team how to use it, in plain language.' },
+          { i: 'chat', t: 'WhatsApp support', d: 'Questions go to the people who built it, on WhatsApp or phone.' },
+        ].map((c, idx) => (
+          <div class="card" data-reveal style={`--d:${idx * 90}`}>
+            <div class="icon-tile"><Icon name={c.i as any} /></div>
+            <h3>{c.t}</h3>
+            <p>{c.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Let's build yours." />
+</Base>
+
+<style>
+  .apps { display: grid; gap: 24px; }
+  @media (min-width: 960px) { .apps { grid-template-columns: 1fr 1fr; } }
+  .app {
+    display: grid;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--bg);
+    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+  }
+  .app:hover { transform: translateY(-6px); box-shadow: 0 40px 80px -40px rgb(12 19 16 / 0.35); }
+  .app__visual { padding: clamp(20px, 4vw, 40px); max-height: 420px; overflow: hidden; position: relative; }
+  .app__visual::after { content: ''; position: absolute; inset: auto 0 0; height: 90px; background: linear-gradient(transparent, var(--fade)); }
+  .app__visual--bill { --fade: #c9ecd7; background: linear-gradient(160deg, var(--mint), #c9ecd7); }
+  .app__visual--gym { --fade: #e3d6ae; background: linear-gradient(160deg, #efe7cf, #e3d6ae); }
+  .app__visual :global(.bill), .app__visual :global(.gym) { max-width: 420px; margin-inline: auto; transition: transform 0.8s var(--ease); }
+  .app:hover .app__visual :global(.bill), .app:hover .app__visual :global(.gym) { transform: translateY(-14px); }
+  .app__body { padding: clamp(24px, 4vw, 40px); }
+  .app__body h2 { font-size: var(--step-3); margin: 18px 0 6px; }
+  .app__for { font-weight: 600; color: var(--green-ink); }
+  .app__body p:not(.app__for) { color: var(--ink-2); }
+</style>

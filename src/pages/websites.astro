@@ -1,0 +1,272 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ToothArt from '../components/ToothArt.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { WA } from '../consts';
+import { faqPage, staticSiteOffer, ORG_ID } from '../schema';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Websites', href: '/websites/' },
+];
+
+const dento = [
+  { i: 'cube', t: 'Real-time 3D, built in code', d: 'An anatomical tooth assembles from scan particles in the hero. A scroll-driven cross-section goes down to the root canals. An aligner story takes a crooked arch to straight teeth, and each treatment page has its own 3D model.' },
+  { i: 'cursor', t: 'Interactive tools', d: 'A smile finder with a tooth chart, a shade simulator, a microscope lens and a fee explorer.' },
+  { i: 'bolt', t: 'Fast everywhere', d: 'Fully static. 3D loads only after the page shows and pauses when off-screen. It respects "reduce motion" and falls back to 2D where 3D isn\'t supported.' },
+  { i: 'search', t: 'Built to rank', d: 'Structured data for the clinic, doctors, treatments and FAQs. The old URLs were kept, so Google rankings carry over.' },
+  { i: 'calendar', t: 'Bookings', d: 'Online booking and contact forms with spam filtering, email alerts and a front-desk dashboard to manage them.' },
+];
+
+const includes = [
+  { i: 'layout', t: 'Design that fits your brand', d: 'Built for your business, mobile-first, and checked at 360px wide.' },
+  { i: 'spark', t: 'Motion and 3D', d: 'Scroll-driven animation and 3D where it helps the story, never at the cost of speed.' },
+  { i: 'form', t: 'Booking and contact forms', d: 'Enquiries come to you, with spam filtering and an admin view to manage them.' },
+  { i: 'search', t: 'SEO from day one', d: 'Clean page titles, structured data, a sitemap and fast pages that Google likes.' },
+  { i: 'bolt', t: 'Fast on a normal phone', d: 'Heavy animation loads after the page shows and pauses off-screen.' },
+  { i: 'whatsapp', t: 'WhatsApp built in', d: 'Chat and call buttons where your customers expect them.' },
+];
+
+const plans = [
+  {
+    name: 'Static website',
+    price: '₹1,999',
+    terms: 'One-time · first year of hosting included · domain charged separately',
+    for: 'For shops, clinics and small businesses that need a fast, good-looking site.',
+    items: ['Mobile-first design', 'WhatsApp chat and call buttons', 'Page titles, descriptions and sitemap for Google', 'Hosting for the first year'],
+    cta: 'Start for ₹1,999',
+    href: WA.staticSite,
+    featured: true,
+  },
+  {
+    name: 'Website with admin panel',
+    price: 'Get a quote',
+    terms: 'Dynamic / CMS website',
+    for: 'For businesses that want to edit their own pages, run a blog or manage enquiries.',
+    items: ['Edit content yourself', 'Blog and news pages', 'Booking and enquiry forms', 'Admin view for enquiries'],
+    cta: 'Get a quote',
+    href: WA.website,
+  },
+  {
+    name: 'Online store',
+    price: 'Get a quote',
+    terms: 'E-commerce',
+    for: 'For brands and shops that want to sell online.',
+    items: ['Products and categories', 'Orders and customers', 'Online payments', 'Mobile-first checkout'],
+    cta: 'Get a quote',
+    href: WA.website,
+  },
+  {
+    name: '3D & animated website',
+    price: 'Get a quote',
+    terms: 'Premium',
+    for: 'For clinics and brands that want a site people remember, like Dentologie.',
+    items: ['Real-time 3D built in code', 'Scroll-driven stories', 'Interactive tools', 'Static fallback for every effect'],
+    cta: 'Get a quote',
+    href: WA.website,
+  },
+];
+
+const faqs = [
+  { q: 'What do I get for ₹1,999?', a: 'A static website: a fast, mobile-first site with WhatsApp chat and call buttons, and the basics Google needs (page titles, descriptions and a sitemap). It is a one-time price and includes the first year of hosting. The domain name is charged separately.' },
+  { q: 'Is hosting included?', a: 'Yes, the first year of hosting is included in the ₹1,999 static website. We will tell you the renewal price before the year ends.' },
+  { q: 'Do I need to buy a domain?', a: 'Yes. The domain (like yourbusiness.in) is charged separately. If you already have one, we connect it to your new site.' },
+  { q: 'Can I edit the website myself?', a: 'A static website has no admin panel, so changes are made by us. If you want to edit pages yourself, run a blog or manage enquiries, choose a website with an admin panel.' },
+  { q: 'Will a 3D website be slow on phones?', a: 'No. The page loads first, then the 3D. Animation pauses when it is off-screen, respects the "reduce motion" setting, and falls back to 2D where 3D isn\'t supported.' },
+  { q: 'Do you do SEO?', a: 'Every site is built to rank: fast pages, clean titles and descriptions, structured data and a sitemap. If you are moving from an old site, we keep your old URLs so your Google rankings carry over.' },
+];
+
+const service = {
+  '@type': 'Service',
+  name: 'Website design and development',
+  serviceType: 'Website design',
+  provider: { '@id': ORG_ID },
+  areaServed: [{ '@type': 'City', name: 'Hyderabad' }, { '@type': 'Country', name: 'India' }],
+  description: 'Premium, animated and 3D websites that are fast on phones and built to rank on Google. Static websites from ₹1,999.',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Website options',
+    itemListElement: [
+      staticSiteOffer,
+      { '@type': 'Offer', name: 'Website with admin panel (CMS)', seller: { '@id': ORG_ID } },
+      { '@type': 'Offer', name: 'Online store', seller: { '@id': ORG_ID } },
+      { '@type': 'Offer', name: '3D and animated website', seller: { '@id': ORG_ID } },
+    ],
+  },
+};
+---
+<Base
+  title="Website Design in Hyderabad | 3D & Animated Websites from ₹1,999"
+  description="Premium websites with 3D, scroll-driven motion and interactive tools. Fast on phones, built to rank. Clinic sites, online stores, static sites from ₹1,999."
+  crumbs={crumbs}
+  schema={[service, faqPage(faqs)]}
+  waHref={WA.website}
+  headerTone="dark"
+>
+  <PageHero
+    eyebrow="Websites"
+    title={'Websites that look and move like <span class="mark">a premium brand.</span>'}
+    lede="3D, scroll-driven motion and interactive tools, built by the same team that builds apps. Booking forms, an admin view and SEO come built in. And it stays fast on a mid-range phone."
+    crumbs={crumbs}
+    tone="dark"
+  >
+    <div class="btn-row" data-reveal style="--d:550">
+      <a class="btn btn--bright" href={WA.website} target="_blank" rel="noopener"><Icon name="whatsapp" /> Start my website</a>
+      <a class="btn btn--ghost" href="#pricing">See pricing</a>
+    </div>
+  </PageHero>
+
+  <!-- CASE STUDY -->
+  <section class="section case" id="dentologie" aria-labelledby="dento-title">
+    <div class="wrap">
+      <div class="case__top">
+        <div>
+          <p class="eyebrow">Case study · dental clinic, Hyderabad</p>
+          <h2 id="dento-title" data-split>Dentologie</h2>
+          <p class="lede" data-reveal>A rebuild of a Hyderabad dental clinic's website, moving it off Webflow and into code. The goal: a site that feels as modern as the clinic, still loads fast on a phone, and keeps its Google rankings.</p>
+          <div class="chip-row" data-reveal style="--d:100">
+            <span class="chip chip--line">3D in code</span>
+            <span class="chip chip--line">Interactive tools</span>
+            <span class="chip chip--line">Fully static</span>
+            <span class="chip chip--line">Structured data</span>
+            <span class="chip chip--line">Bookings dashboard</span>
+          </div>
+        </div>
+        <div class="case__art" data-reveal="scale" style="--d:150">
+          <ToothArt shade />
+          <p class="case__note">A taste of it: pick a shade.</p>
+        </div>
+      </div>
+
+      <div class="case__grid">
+        {dento.map((d, idx) => (
+          <div class="case__item" data-reveal style={`--d:${(idx % 3) * 90}`}>
+            <span class="case__n">{String(idx + 1).padStart(2, '0')}</span>
+            <div class="icon-tile"><Icon name={d.i as any} /></div>
+            <h3>{d.t}</h3>
+            <p>{d.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INCLUDES -->
+  <section class="section section--white" aria-labelledby="inc-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">What a website project includes</p>
+          <h2 id="inc-title" data-split>Looks premium. <span class="mark">Works hard.</span></h2>
+          <p class="lede" data-reveal>A website is often the first thing a customer sees. Ours are built to impress them, load fast for them, and turn them into an enquiry.</p>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        {includes.map((c, idx) => (
+          <div class="card" data-reveal style={`--d:${(idx % 3) * 90}`}>
+            <div class="icon-tile"><Icon name={c.i as any} /></div>
+            <h3>{c.t}</h3>
+            <p class="muted">{c.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section section--mint" id="pricing" aria-labelledby="price-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">Pricing</p>
+          <h2 id="price-title" data-split>Start at ₹1,999. <span class="mark">Grow from there.</span></h2>
+          <p class="lede" data-reveal>Static websites have a fixed starting price. Everything else is quoted for your business, and kept affordable for small businesses.</p>
+        </div>
+      </div>
+      <div class="plans">
+        {plans.map((p, idx) => (
+          <article class:list={['plan', { 'plan--featured': p.featured }]} data-reveal style={`--d:${idx * 90}`}>
+            <p class="plan__terms-top">{p.featured ? 'Most popular start' : p.terms}</p>
+            <h3>{p.name}</h3>
+            <p class:list={['plan__price', { 'plan__price--quote': !p.featured }]}>{p.price}</p>
+            {p.featured && <p class="plan__terms">{p.terms}</p>}
+            <p class="plan__for">{p.for}</p>
+            <ul class="ticks">{p.items.map((it) => <li>{it}</li>)}</ul>
+            <a class:list={['btn', p.featured ? 'btn--bright' : 'btn--ghost']} href={p.href} target="_blank" rel="noopener"><Icon name="whatsapp" /> {p.cta}</a>
+          </article>
+        ))}
+      </div>
+      <p class="plans__apps" data-reveal>Need a custom app instead? <a href="/work/">See the apps we build</a>. They're quoted too.</p>
+    </div>
+  </section>
+
+  <Faq items={faqs} title="Questions about websites" />
+
+  <CtaBand
+    title="Let's make your website."
+    text="Tell us about your business on WhatsApp. Send a site you like if you have one. We'll reply with what we'd build and the price."
+    waHref={WA.website}
+    waLabel="Start my website"
+  />
+</Base>
+
+<style>
+  .case { background: var(--dark); color: var(--on-dark); }
+  .case h2, .case h3 { color: #fff; }
+  .case .lede { color: #c3d0c9; }
+  .case .eyebrow { color: var(--green-bright); }
+  .case .chip--line { border-color: var(--dark-line); color: var(--on-dark-2); }
+  .case__top { display: grid; gap: 48px; align-items: center; margin-bottom: clamp(48px, 7vw, 96px); }
+  .case__top h2 { font-size: var(--step-5); }
+  .case__top .chip-row { margin-top: 24px; }
+  @media (min-width: 960px) { .case__top { grid-template-columns: 1.2fr 1fr; gap: 80px; } }
+  .case__art {
+    border-radius: var(--radius-lg);
+    padding: 40px 24px 28px;
+    background: radial-gradient(70% 60% at 50% 35%, rgb(24 210 110 / 0.14), transparent 70%), var(--dark-2);
+    border: 1px solid var(--dark-line);
+  }
+  .case__note { text-align: center; font-size: 0.85rem; color: var(--on-dark-2); margin: 14px 0 0; }
+  .case__grid { display: grid; gap: 1px; background: var(--dark-line); border: 1px solid var(--dark-line); border-radius: var(--radius-lg); overflow: hidden; }
+  @media (min-width: 720px) { .case__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .case__grid { grid-template-columns: repeat(3, 1fr); } .case__item:nth-child(4) { grid-column: span 1; } .case__item:last-child { grid-column: span 2; } }
+  .case__item { background: var(--dark); padding: clamp(24px, 3vw, 36px); position: relative; transition: background-color 0.4s; }
+  .case__item:hover { background: var(--dark-2); }
+  .case__item h3 { font-size: var(--step-1); }
+  .case__item p { color: var(--on-dark-2); margin: 0; }
+  .case__item .icon-tile { background: rgb(24 210 110 / 0.12); color: var(--green-bright); }
+  .case__n { position: absolute; top: 24px; right: 26px; font-family: var(--font-head); font-weight: 600; color: #3a4a42; }
+
+  .plans { display: grid; gap: 16px; }
+  @media (min-width: 720px) { .plans { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .plans { grid-template-columns: repeat(4, 1fr); } }
+  .plan {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #cfe7d8;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+  .plan:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .plan h3 { font-size: var(--step-1); margin: 4px 0 10px; }
+  .plan__terms-top { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--ink-3); margin: 0; }
+  .plan__price { font-family: var(--font-head); font-weight: 700; font-size: clamp(2.6rem, 4vw, 3.2rem); letter-spacing: -0.05em; line-height: 1; margin: 0 0 10px; }
+  .plan__price--quote { font-size: 1.6rem; letter-spacing: -0.03em; color: var(--green-ink); }
+  .plan__terms { font-size: 0.86rem; font-weight: 600; }
+  .plan__for { color: var(--ink-2); font-size: 0.96rem; }
+  .plan .ticks { margin: 6px 0 26px; font-size: 0.95rem; }
+  .plan .btn { margin-top: auto; width: 100%; }
+  .plan--featured { background: var(--ink); color: #fff; border-color: var(--ink); box-shadow: 0 30px 60px -30px rgb(12 19 16 / 0.6); }
+  .plan--featured .plan__terms-top { color: var(--green-bright); }
+  .plan--featured .plan__price { color: var(--green-bright); }
+  .plan--featured .plan__terms { color: #cfe0d6; }
+  .plan--featured .plan__for { color: var(--on-dark-2); }
+  .plan--featured .ticks li::before { background-color: var(--green-bright); }
+  .plans__apps { margin-top: 28px; text-align: center; color: var(--ink-2); }
+  .plans__apps a { color: var(--green-ink); font-weight: 600; }
+</style>

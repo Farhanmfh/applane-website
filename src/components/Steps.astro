@@ -1,0 +1,82 @@
+---
+interface Step { title: string; text: string; you?: string; we?: string }
+interface Props { steps?: Step[]; detailed?: boolean }
+const {
+  steps = [
+    { title: 'Tell us how your business runs', text: 'Your items, your bill format, who does what. Send it on WhatsApp or show us on a call. No long forms.' },
+    { title: 'We build the app around it and load your data', text: 'We shape the app to how you already work. Then we load your items and customers, so you start with everything in place.' },
+    { title: 'We train your staff and stay on WhatsApp', text: 'We show your team how to use it. After that, support is a WhatsApp message or a phone call away.' },
+  ],
+  detailed = false,
+} = Astro.props;
+---
+<ol class="steps" data-inview>
+  {steps.map((s, i) => (
+    <li class="steps__item" data-reveal style={`--d:${i * 140}`}>
+      <span class="steps__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      <div>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+        {detailed && s.you && (
+          <dl class="steps__who">
+            <div><dt>You</dt><dd>{s.you}</dd></div>
+            <div><dt>We</dt><dd>{s.we}</dd></div>
+          </dl>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps { list-style: none; display: grid; gap: 20px; position: relative; counter-reset: s; }
+  .steps__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .steps__num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1rem;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--ink);
+    color: var(--green-bright);
+    position: relative;
+  }
+  .steps__item h3 { font-size: var(--step-2); margin-bottom: 0.4em; }
+  .steps__item p { color: var(--ink-2); margin: 0; }
+  .steps__who { margin: 18px 0 0; display: grid; gap: 10px; }
+  .steps__who div { display: grid; grid-template-columns: 44px 1fr; gap: 10px; }
+  .steps__who dt { font-weight: 700; font-family: var(--font-head); color: var(--green-ink); }
+  .steps__who dd { margin: 0; color: var(--ink-2); }
+
+  @media (min-width: 960px) {
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .steps__item { grid-template-columns: 1fr; padding: 32px; }
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 60px; right: 60px; top: 58px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--green-bright));
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.6s var(--ease-in-out) 0.3s;
+      z-index: 0;
+    }
+    .steps.is-in::before { transform: scaleX(1); }
+    .steps__item { z-index: 1; background: transparent; border: 0; padding: 0 12px; }
+    .steps__num { margin-bottom: 8px; box-shadow: 0 0 0 10px var(--bg); }
+    :global(.section--mint) .steps__num { box-shadow: 0 0 0 10px var(--mint); }
+    :global(.section--white) .steps__num { box-shadow: 0 0 0 10px var(--surface); }
+  }
+  :global(html:not(.js)) .steps::before { transform: none; }
+</style>

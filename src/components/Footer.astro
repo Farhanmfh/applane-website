@@ -1,0 +1,121 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { PHONE, WA } from '../consts';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div class="ftr__brand">
+        <a href="/" aria-label="Applane home" class="ftr__logo"><Logo dark /></a>
+        <p>Custom apps built around how your business already works, and websites that look and move like a premium brand.</p>
+        <p class="ftr__place"><Icon name="pin" size={18} /> Hyderabad, Telangana, India</p>
+      </div>
+
+      <nav class="ftr__cols" aria-label="Footer">
+        <div>
+          <h2>Apps</h2>
+          <ul>
+            <li><a href="/work/distributor-billing-software/">Applane Billing</a></li>
+            <li><a href="/work/gym-management-software/">Gym Owners</a></li>
+            <li><a href="/work/">All apps</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Websites</h2>
+          <ul>
+            <li><a href="/websites/">Website design</a></li>
+            <li><a href="/websites/#dentologie">Dentologie case study</a></li>
+            <li><a href="/websites/#pricing">Static sites from ₹1,999</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <ul>
+            <li><a href="/how-we-work/">How we work</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/privacy/">Privacy policy</a></li>
+            <li><a href="/terms/">Terms</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="ftr__talk">
+      <p class="ftr__big">Tell us how your business runs.<br /><span>We'll build around it.</span></p>
+      <div class="btn-row">
+        <a class="btn btn--bright" href={WA.general} target="_blank" rel="noopener"><Icon name="whatsapp" /> Chat on WhatsApp</a>
+        <a class="btn btn--ghost" href={`tel:${PHONE.e164}`}><Icon name="phone" /> {PHONE.display}</a>
+      </div>
+    </div>
+
+    <div class="ftr__bottom">
+      <p>© {year} Applane. All rights reserved.</p>
+      <p>Made in Hyderabad.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    background: var(--dark);
+    color: var(--on-dark-2);
+    padding-block: clamp(64px, 8vw, 110px) 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .ftr a { text-decoration: none; }
+  .ftr__top {
+    display: grid;
+    gap: 48px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--dark-line);
+  }
+  .ftr__logo { display: inline-flex; margin-bottom: 20px; }
+  .ftr__brand p { max-width: 38ch; }
+  .ftr__place { display: inline-flex; align-items: center; gap: 8px; color: var(--on-dark); font-size: 0.95rem; }
+  .ftr__cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  .ftr__cols h2 {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .ftr__cols ul { list-style: none; display: grid; gap: 10px; }
+  .ftr__cols a { color: var(--on-dark-2); transition: color 0.2s; }
+  .ftr__cols a:hover { color: var(--green-bright); }
+  .ftr__talk {
+    padding-block: 56px;
+    display: grid;
+    gap: 28px;
+    border-bottom: 1px solid var(--dark-line);
+  }
+  .ftr__big {
+    font-family: var(--font-head);
+    font-size: var(--step-4);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    color: #fff;
+    margin: 0;
+  }
+  .ftr__big span { color: var(--green-bright); }
+  .ftr__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 28px;
+    font-size: 0.88rem;
+  }
+  .ftr__bottom p { margin: 0; }
+  @media (min-width: 760px) {
+    .ftr__top { grid-template-columns: 1.1fr 1.6fr; }
+    .ftr__cols { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .ftr__talk { grid-template-columns: 1.4fr auto; align-items: end; }
+  }
+</style>

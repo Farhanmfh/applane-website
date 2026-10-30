@@ -1,0 +1,109 @@
+---
+// Line-drawn molar that draws itself on scroll. With `shade`, adds a small
+// shade-simulator demo like the one on the Dentologie site.
+interface Props { shade?: boolean; class?: string }
+const { shade = false, class: cls } = Astro.props;
+const shades = [
+  { id: 'BL1', c: '#FBFAF4' },
+  { id: 'A1', c: '#F4EBD6' },
+  { id: 'A2', c: '#ECDDBE' },
+  { id: 'A3', c: '#E3CFA4' },
+  { id: 'A3.5', c: '#D8C08E' },
+  { id: 'B3', c: '#D2BA7E' },
+];
+---
+<div class:list={['tooth', cls]} data-tooth={shade ? '' : undefined} style={`--shade:${shades[3].c}`}>
+  <div class="tooth__stage" data-inview>
+    <svg viewBox="0 0 200 250" aria-hidden="true">
+      <defs>
+        <radialGradient id="toothShine" cx="40%" cy="25%" r="70%">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.85" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <path class="tooth__fill" d="M60 30C40 30 26 48 28 74c2 26 12 44 18 66 6 25 4 60 16 82 8 14 22 8 26-8 4-18 6-42 12-54 6 12 8 36 12 54 4 16 18 22 26 8 12-22 10-57 16-82 6-22 16-40 18-66 2-26-12-44-32-44-16 0-26 10-40 10S76 30 60 30Z" />
+      <path class="tooth__fill tooth__shine" d="M60 30C40 30 26 48 28 74c2 26 12 44 18 66 6 25 4 60 16 82 8 14 22 8 26-8 4-18 6-42 12-54 6 12 8 36 12 54 4 16 18 22 26 8 12-22 10-57 16-82 6-22 16-40 18-66 2-26-12-44-32-44-16 0-26 10-40 10S76 30 60 30Z" fill="url(#toothShine)" />
+      <path class="tooth__line" pathLength="1" d="M60 30C40 30 26 48 28 74c2 26 12 44 18 66 6 25 4 60 16 82 8 14 22 8 26-8 4-18 6-42 12-54 6 12 8 36 12 54 4 16 18 22 26 8 12-22 10-57 16-82 6-22 16-40 18-66 2-26-12-44-32-44-16 0-26 10-40 10S76 30 60 30Z" />
+      <path class="tooth__line tooth__line--2" pathLength="1" d="M38 86c20-12 40-8 62-14 22 6 42 2 62 14" />
+      <path class="tooth__line tooth__line--3" pathLength="1" d="M80 104c2-12 12-16 20-10 8-6 18-2 20 10-4 12-36 12-40 0Z" />
+      <path class="tooth__line tooth__line--3" pathLength="1" d="M86 112c2 30 6 60 8 96M114 112c-2 30-6 60-8 96" />
+    </svg>
+    <span class="tooth__dot" style="--x:18%;--y:22%"></span>
+    <span class="tooth__dot" style="--x:82%;--y:30%"></span>
+    <span class="tooth__dot" style="--x:70%;--y:78%"></span>
+  </div>
+  {shade && (
+    <fieldset class="tooth__shades">
+      <legend>Shade simulator</legend>
+      <div class="tooth__swatches">
+        {shades.map((s, i) => (
+          <label style={`--c:${s.c}`}>
+            <input type="radio" name="shade" value={s.c} checked={i === 3} />
+            <span>{s.id}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  )}
+</div>
+
+<style>
+  .tooth { display: grid; gap: 20px; justify-items: center; }
+  .tooth__stage { position: relative; width: min(100%, 300px); aspect-ratio: 200 / 250; }
+  .tooth__stage svg { width: 100%; height: 100%; overflow: visible; }
+  .tooth__fill { fill: var(--shade); transition: fill 0.6s var(--ease), opacity 1s var(--ease) 0.9s; }
+  .tooth__shine { mix-blend-mode: soft-light; }
+  .tooth__line {
+    fill: none;
+    stroke: var(--green-bright);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .tooth__line--2 { stroke-width: 1.4; opacity: 0.8; }
+  .tooth__line--3 { stroke: #ff9a7a; stroke-width: 1.6; }
+  :global(.js) .tooth__stage .tooth__line { stroke-dashoffset: 1; transition: stroke-dashoffset 2.2s var(--ease-in-out); }
+  :global(.js) .tooth__stage .tooth__line--2 { transition-delay: 0.5s; }
+  :global(.js) .tooth__stage .tooth__line--3 { transition-delay: 0.9s; }
+  :global(.js) .tooth__stage .tooth__fill { opacity: 0; }
+  :global(.js) .tooth__stage.is-in .tooth__line { stroke-dashoffset: 0; }
+  :global(.js) .tooth__stage.is-in .tooth__fill { opacity: 1; }
+  :global(.js) .tooth__stage.is-in .tooth__shine { opacity: 0.9; }
+  .tooth__dot {
+    position: absolute; left: var(--x); top: var(--y);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--green-bright);
+    box-shadow: 0 0 0 6px rgb(24 210 110 / 0.18), 0 0 24px rgb(24 210 110 / 0.8);
+    animation: float-y 3.2s ease-in-out infinite;
+  }
+  .tooth__dot:nth-of-type(2) { animation-delay: -1s; }
+  .tooth__dot:nth-of-type(3) { animation-delay: -2s; }
+
+  .tooth__shades { border: 0; padding: 0; margin: 0; text-align: center; }
+  .tooth__shades legend { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-dark-2); margin: 0 auto 12px; }
+  .tooth__swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .tooth__swatches label { position: relative; cursor: pointer; }
+  .tooth__swatches input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .tooth__swatches span {
+    display: grid; place-items: center;
+    min-width: 50px; height: 40px; padding: 0 8px;
+    border-radius: 999px;
+    background: var(--c);
+    color: #3b3221;
+    font-size: 0.8rem; font-weight: 700;
+    border: 2px solid transparent;
+    transition: transform 0.3s var(--ease), border-color 0.3s;
+  }
+  .tooth__swatches input:checked + span { border-color: var(--green-bright); transform: translateY(-3px); }
+  .tooth__swatches input:focus-visible + span { outline: 3px solid var(--green-bright); outline-offset: 2px; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tooth]').forEach((root) => {
+    root.querySelectorAll<HTMLInputElement>('input[name="shade"]').forEach((r) => {
+      r.addEventListener('change', () => root.style.setProperty('--shade', r.value));
+    });
+  });
+</script>

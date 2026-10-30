@@ -1,0 +1,226 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { NAV, WA } from '../consts';
+
+interface Props { tone?: 'light' | 'dark' }
+const { tone = 'light' } = Astro.props;
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="hdr" data-tone={tone} id="top">
+  <div class="hdr__inner">
+    <a href="/" class="hdr__logo" aria-label="Applane home">
+      <Logo />
+    </a>
+
+    <nav class="hdr__nav" aria-label="Main">
+      <ul>
+        {NAV.map((n) => (
+          <li>
+            <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="hdr__actions">
+      <a class="btn btn--wa btn--sm hdr__cta" href={WA.general} target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+        <Icon name="whatsapp" /> <span>Chat on WhatsApp</span>
+      </a>
+      <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mm" id="mobile-menu" hidden>
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="/" style="--i:0">Home</a></li>
+        {NAV.map((n, i) => (
+          <li><a href={n.href} style={`--i:${i + 1}`} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="mm__foot">
+      <a class="btn btn--bright" href={WA.general} target="_blank" rel="noopener"><Icon name="whatsapp" /> Chat on WhatsApp</a>
+      <p>Custom apps &amp; websites · Hyderabad</p>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--header-h);
+    transition: transform 0.5s var(--ease), background-color 0.4s, box-shadow 0.4s, color 0.4s;
+    color: var(--ink);
+  }
+  .hdr[data-tone='dark'] { color: #fff; }
+  .hdr[data-tone='dark'] :global(.logo) { color: #fff; }
+  .hdr.is-scrolled {
+    background: rgb(246 247 245 / 0.82);
+    -webkit-backdrop-filter: saturate(1.6) blur(16px);
+    backdrop-filter: saturate(1.6) blur(16px);
+    box-shadow: 0 1px 0 rgb(12 19 16 / 0.08);
+    color: var(--ink);
+  }
+  .hdr.is-scrolled :global(.logo) { color: var(--ink); }
+  .hdr.is-hidden { transform: translateY(-100%); }
+
+  .hdr__inner {
+    height: 100%;
+    max-width: calc(var(--max) + 2 * var(--gutter));
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .hdr__logo { text-decoration: none; display: inline-flex; }
+
+  .hdr__nav { display: none; }
+  .hdr__nav ul {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    padding: 5px;
+    border-radius: 999px;
+    background: rgb(12 19 16 / 0.05);
+    border: 1px solid rgb(12 19 16 / 0.06);
+  }
+  .hdr[data-tone='dark']:not(.is-scrolled) .hdr__nav ul {
+    background: rgb(255 255 255 / 0.07);
+    border-color: rgb(255 255 255 / 0.1);
+  }
+  .hdr__nav a {
+    display: block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .hdr__nav a:hover { background: rgb(12 19 16 / 0.07); }
+  .hdr[data-tone='dark']:not(.is-scrolled) .hdr__nav a:hover { background: rgb(255 255 255 / 0.1); }
+  .hdr__nav a[aria-current='page'] { background: var(--ink); color: #fff; }
+  .hdr[data-tone='dark']:not(.is-scrolled) .hdr__nav a[aria-current='page'] { background: #fff; color: var(--ink); }
+
+  .hdr__actions { display: flex; align-items: center; gap: 10px; }
+  .hdr__cta span { display: none; }
+  .hdr__cta { padding-inline: 12px; min-width: 42px; }
+
+  .hdr__burger {
+    width: 44px; height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(12 19 16 / 0.06);
+    display: grid;
+    place-content: center;
+    gap: 6px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+  .hdr[data-tone='dark']:not(.is-scrolled) .hdr__burger { background: rgb(255 255 255 / 0.12); }
+  .hdr__burger span {
+    display: block;
+    width: 18px; height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.45s var(--ease);
+  }
+  .hdr__burger[aria-expanded='true'] span:first-child { transform: translateY(4px) rotate(45deg); }
+  .hdr__burger[aria-expanded='true'] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+  @media (min-width: 560px) {
+    .hdr__cta span { display: inline; }
+    .hdr__cta { padding-inline: 18px; }
+  }
+  @media (min-width: 960px) {
+    .hdr__nav { display: block; }
+    .hdr__burger { display: none; }
+  }
+
+  /* Mobile menu */
+  .mm {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--dark);
+    color: #fff;
+    padding: calc(var(--header-h) + 24px) var(--gutter) 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    clip-path: circle(0 at calc(100% - 44px) 36px);
+    transition: clip-path 0.7s var(--ease-in-out);
+  }
+  .mm.is-open { clip-path: circle(150% at calc(100% - 44px) 36px); }
+  .mm ul { list-style: none; display: grid; gap: 4px; }
+  .mm a {
+    display: block;
+    font-family: var(--font-head);
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    padding: 4px 0;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+    transition-delay: calc(0.15s + var(--i) * 0.06s);
+  }
+  .mm a[aria-current='page'] { color: var(--green-bright); }
+  .mm.is-open a { opacity: 1; transform: none; }
+  .mm__foot { display: grid; gap: 16px; }
+  .mm__foot p { color: var(--on-dark-2); margin: 0; font-size: 0.95rem; }
+  :global(html.menu-open) .hdr { color: #fff; background: transparent; box-shadow: none; backdrop-filter: none; }
+  :global(html.menu-open) .hdr :global(.logo) { color: #fff; }
+  :global(html.menu-open) .hdr .hdr__cta { visibility: hidden; }
+  :global(html.menu-open) .hdr .hdr__burger { background: rgb(255 255 255 / 0.12); }
+  :global(html.menu-open) { overflow: hidden; }
+  .hdr__logo, .hdr__actions { position: relative; z-index: 2; }
+</style>
+
+<script>
+  const hdr = document.querySelector<HTMLElement>('.hdr')!;
+  const burger = hdr.querySelector<HTMLButtonElement>('.hdr__burger')!;
+  const menu = hdr.querySelector<HTMLElement>('.mm')!;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+  const onScroll = () => {
+    const y = window.scrollY;
+    hdr.classList.toggle('is-scrolled', y > 24);
+    const goingDown = y > lastY && y > 480;
+    if (!document.documentElement.classList.contains('menu-open')) hdr.classList.toggle('is-hidden', goingDown);
+    lastY = y;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+
+  const setMenu = (open: boolean) => {
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.documentElement.classList.toggle('menu-open', open);
+    if (open) {
+      menu.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));
+    } else {
+      menu.classList.remove('is-open');
+      setTimeout(() => { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 700);
+    }
+  };
+  burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+</script>

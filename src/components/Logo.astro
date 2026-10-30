@@ -1,0 +1,31 @@
+---
+// Wordmark: a lane in perspective that also reads as an "A", plus the name.
+interface Props { dark?: boolean; class?: string }
+const { dark = false, class: cls } = Astro.props;
+---
+<span class:list={['logo', { 'logo--dark': dark }, cls]}>
+  <svg class="logo__mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+    <rect width="32" height="32" rx="9" fill="#0B8A47" />
+    <path d="M8.5 25 14.6 7M23.5 25 17.4 7" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" />
+    <path d="M16 24.5V20M16 16.5v-3M16 10.5V9" stroke="#18D26E" stroke-width="2.2" stroke-linecap="round" />
+  </svg>
+  <span class="logo__word">applane</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.45rem;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .logo--dark { color: #fff; }
+  .logo__mark { width: 32px; height: 32px; flex: none; transition: transform 0.6s var(--ease); }
+  .logo__word { transform: translateY(-1px); }
+  :global(a:hover) > .logo .logo__mark { transform: rotate(-8deg) scale(1.05); }
+</style>

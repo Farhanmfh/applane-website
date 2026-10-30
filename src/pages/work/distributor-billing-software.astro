@@ -1,0 +1,226 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import BillMock from '../../components/BillMock.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { WA } from '../../consts';
+import { faqPage, ORG_ID } from '../../schema';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Apps', href: '/work/' },
+  { name: 'Applane Billing', href: '/work/distributor-billing-software/' },
+];
+
+const features = [
+  { i: 'rupee', t: 'Bill at your own prices', d: 'Change a rate any time. Bill at today\'s market price, not the factory software\'s rate from months ago.' },
+  { i: 'bill', t: 'A proper GST tax invoice', d: 'A4, laid out like your factory\'s own bill: HSN, CGST and SGST, box and piece quantities, amount in words and bank details. Print it or share it on WhatsApp.' },
+  { i: 'tablet', t: 'Run the counter on a tablet', d: 'Walk-in sales and account customers. Note who delivered or picked up, cash or online, paid or due.' },
+  { i: 'dues', t: 'Track every due', d: 'Partial payments, a running balance for each retailer, and the earlier due printed on the next bill.' },
+  { i: 'lock', t: 'Control who can do what', d: 'Staff create bills. Only the owner can edit or cancel them. Bills are cancelled, never deleted, and bill numbers are never reused.' },
+  { i: 'shield', t: 'An audit log that can\'t be edited', d: 'Every change is recorded. You always know who changed what, and when.' },
+  { i: 'download', t: 'Sales register for your CA', d: 'A clean sales register with a CSV export, ready to send to your accountant.' },
+  { i: 'devices', t: 'Phone, tablet and desktop', d: 'Use it on any device, and install it on the home screen like a regular app.' },
+  { i: 'upload', t: 'Start with everything loaded', d: 'We import your items and retailers from the factory report, so you start billing on day one.' },
+];
+
+const soon = ['WhatsApp payment reminders', 'Reports', 'Route-wise billing', 'Stock tracking'];
+
+const faqs = [
+  { q: 'Does it connect to our factory software?', a: 'No. Applane Billing runs alongside the factory software and never connects to it. You keep buying stock through the factory system, and bill your retailers in Applane Billing at your own prices.' },
+  { q: 'Does it print a GST bill?', a: 'Yes. It prints an A4 tax invoice with HSN codes, CGST and SGST, box and piece quantities, the amount in words and your bank details. You can also share it on WhatsApp.' },
+  { q: 'Can staff delete or change bills?', a: 'No. Staff can create bills. Only the owner can edit or cancel a bill. Cancelled bills stay on record, bill numbers are never reused, and every change goes into an audit log that cannot be edited.' },
+  { q: 'How do partial payments and dues work?', a: 'Record what the retailer paid. If a ₹1,000 bill gets ₹300, the app keeps ₹700 as due, adds it to that retailer\'s running balance, and prints the earlier due on their next bill.' },
+  { q: 'Can I give my CA the sales data?', a: 'Yes. The sales register exports to CSV, which your CA can open in Excel or their accounting software.' },
+  { q: 'Do we have to type in all our items?', a: 'No. We import your items and retailers from the factory report and set everything up before you start.' },
+  { q: 'How much does it cost?', a: 'It depends on your business and what you need. We look at how you bill today and give you a quote. It is priced for small and mid-size distributors.' },
+];
+
+const app = {
+  '@type': 'SoftwareApplication',
+  name: 'Applane Billing',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Distributor billing and GST invoicing',
+  operatingSystem: 'Web browser (installable on Android, iOS, Windows and macOS)',
+  description: 'Billing software for distributors and agencies. Bill retailers at your own prices, print GST tax invoices with HSN, CGST and SGST, track dues and partial payments, and run counter sales on a tablet.',
+  url: 'https://applane.in/work/distributor-billing-software/',
+  publisher: { '@id': ORG_ID },
+  featureList: features.map((f) => f.t),
+  audience: { '@type': 'BusinessAudience', audienceType: 'Distributors and distribution agencies' },
+};
+---
+<Base
+  title="Distributor Billing Software with GST Bills | Applane Billing"
+  description="Billing software for distributors and agencies. Bill retailers at your own price, print GST invoices, track dues and run the counter on a tablet. Free demo."
+  crumbs={crumbs}
+  schema={[app, faqPage(faqs)]}
+  waHref={WA.billingDemo}
+>
+  <PageHero
+    eyebrow="Applane Billing · for distributors"
+    title={'Billing software for <span class="mark">distributors and agencies.</span>'}
+    lede="Bill retailers at today's price, print a proper GST bill and track every due. It runs alongside your factory software, not instead of it."
+    crumbs={crumbs}
+    tone="mint"
+  >
+    <div class="btn-row" data-reveal style="--d:550">
+      <a class="btn btn--wa" href={WA.billingDemo} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a free demo</a>
+      <a class="btn btn--ghost" href="#try">Try the sample bill</a>
+    </div>
+    <p class="status" data-reveal style="--d:650"><span class="chip chip--dot">In testing with its first client, an ice-cream distributor in Hyderabad</span></p>
+  </PageHero>
+
+  <!-- PROBLEM -->
+  <section class="section" aria-labelledby="problem-title">
+    <div class="wrap problem">
+      <div>
+        <p class="eyebrow">The problem</p>
+        <h2 id="problem-title" data-split>The factory software says ₹100. <span class="mark">Today's price is ₹90.</span></h2>
+        <p class="lede" data-reveal>A distribution agency buys stock from the factory and bills through the factory's software. Those rates are only updated every six months or so. So the agency can't bill at the real market price.</p>
+        <p class="lede" data-reveal>Counter sales go in a notebook. Dues are tracked from memory.</p>
+      </div>
+      <div class="rates" data-reveal="scale" style="--d:150" aria-hidden="true">
+        <div class="rates__card rates__card--old">
+          <span class="rates__label">Factory software</span>
+          <span class="rates__num">₹100</span>
+          <span class="rates__note">Rate updated ~6 months ago</span>
+        </div>
+        <div class="rates__arrow"><Icon name="arrow" size={28} /></div>
+        <div class="rates__card rates__card--new">
+          <span class="rates__label">Applane Billing</span>
+          <span class="rates__num">₹90</span>
+          <span class="rates__note">Today's price, changed in seconds</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRY -->
+  <section class="section section--dark" id="try" aria-labelledby="try-title">
+    <div class="wrap try">
+      <div class="try__text">
+        <p class="eyebrow">Try it</p>
+        <h2 id="try-title" data-split>Change a rate. <span class="mark">Watch the bill follow.</span></h2>
+        <p data-reveal>This is a sample bill with made-up items. Change any rate and the taxable value, CGST, SGST, total, earlier due and amount in words all update, just like in the app.</p>
+        <ul class="ticks" data-reveal style="--d:100">
+          <li>Box and piece quantities on one line</li>
+          <li>HSN, CGST 9% and SGST 9%</li>
+          <li>Earlier due carried onto the next bill</li>
+          <li>Amount in words, in lakhs and crores</li>
+        </ul>
+      </div>
+      <div data-reveal="scale" style="--d:150">
+        <BillMock interactive />
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" aria-labelledby="feat-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">What it does</p>
+          <h2 id="feat-title" data-split>Everything a distributor's <span class="mark">billing counter needs.</span></h2>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        {features.map((f, idx) => (
+          <div class="card feat" data-reveal style={`--d:${(idx % 3) * 90}`}>
+            <div class="icon-tile"><Icon name={f.i as any} /></div>
+            <h3>{f.t}</h3>
+            <p>{f.d}</p>
+          </div>
+        ))}
+      </div>
+      <div class="soon" data-reveal>
+        <p><b>Coming soon</b></p>
+        <div class="chip-row">{soon.map((s) => <span class="chip chip--soon">{s}</span>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALONGSIDE -->
+  <section class="section section--mint" aria-labelledby="along-title">
+    <div class="wrap along">
+      <div>
+        <p class="eyebrow">How it fits</p>
+        <h2 id="along-title" data-split>Runs alongside your factory software. <span class="mark">Never connects to it.</span></h2>
+        <p class="lede" data-reveal>Keep buying stock the way you do today. Applane Billing is where you bill your retailers, at your prices, with your dues.</p>
+      </div>
+      <div class="flow" data-reveal="scale" aria-hidden="true">
+        <div class="flow__box"><Icon name="store" /><span>Factory</span><small>You buy stock in the factory software</small></div>
+        <div class="flow__line"></div>
+        <div class="flow__box flow__box--us"><Icon name="bill" /><span>Applane Billing</span><small>You bill retailers at your own price</small></div>
+        <div class="flow__line"></div>
+        <div class="flow__box"><Icon name="users" /><span>Retailers</span><small>Get a GST bill on paper or WhatsApp</small></div>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqs} title="Questions distributors ask" />
+
+  <CtaBand
+    title="See it with your own items."
+    text="Book a free demo on WhatsApp. We will show you the app with items like yours and walk you through a day of billing."
+    waHref={WA.billingDemo}
+    waLabel="Book a free demo"
+  />
+</Base>
+
+<style>
+  .status { margin: 24px 0 0; }
+  .status .chip { white-space: normal; background: #fff; }
+
+  .problem { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 960px) { .problem { grid-template-columns: 1.2fr 1fr; gap: 80px; } }
+  .rates { display: grid; gap: 14px; justify-items: center; }
+  .rates__card {
+    width: 100%; max-width: 360px;
+    border-radius: var(--radius);
+    padding: 26px 28px;
+    display: grid; gap: 4px;
+  }
+  .rates__card--old { background: #fff; border: 1px solid var(--line); color: var(--ink-3); }
+  .rates__card--old .rates__num { text-decoration: line-through; text-decoration-thickness: 4px; text-decoration-color: #e0634b; }
+  .rates__card--new { background: var(--ink); color: #fff; box-shadow: 0 30px 60px -30px rgb(12 19 16 / 0.6); }
+  .rates__card--new .rates__num { color: var(--green-bright); }
+  .rates__label { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .rates__num { font-family: var(--font-head); font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
+  .rates__note { font-size: 0.92rem; opacity: 0.8; }
+  .rates__arrow { transform: rotate(90deg); color: var(--green); }
+
+  .try { display: grid; gap: 48px; align-items: center; }
+  .try .ticks { margin-top: 24px; color: #e3ebe6; }
+  @media (min-width: 1000px) { .try { grid-template-columns: 0.9fr 1.1fr; gap: 72px; } }
+
+  .feat h3 { font-size: var(--step-1); }
+  .feat p { color: var(--ink-2); }
+  .soon { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
+  .soon p { margin: 0; }
+
+  .along { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 960px) { .along { grid-template-columns: 1fr 1fr; gap: 80px; } }
+  .flow { display: grid; gap: 0; justify-items: center; }
+  .flow__box {
+    width: 100%; max-width: 380px;
+    display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center;
+    padding: 18px 22px; border-radius: 18px; background: #fff; border: 1px solid var(--line);
+  }
+  .flow__box :global(svg) { grid-row: span 2; width: 28px; height: 28px; color: var(--green); }
+  .flow__box span { font-family: var(--font-head); font-weight: 600; font-size: 1.1rem; }
+  .flow__box small { color: var(--ink-3); font-size: 0.88rem; }
+  .flow__box--us { background: var(--ink); color: #fff; border-color: var(--ink); transform: scale(1.04); }
+  .flow__box--us :global(svg) { color: var(--green-bright); }
+  .flow__box--us small { color: var(--on-dark-2); }
+  .flow__line {
+    width: 2px; height: 34px;
+    background: repeating-linear-gradient(to bottom, var(--green) 0 6px, transparent 6px 12px);
+    background-size: 2px 12px;
+    animation: dash-down 0.8s linear infinite;
+  }
+  @keyframes dash-down { to { background-position: 0 12px; } }
+  @media (min-width: 960px) { .rates__arrow { transform: none; } .rates { grid-template-columns: 1fr auto 1fr; align-items: center; } }
+</style>

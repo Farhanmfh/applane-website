@@ -1,0 +1,58 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { PHONE, WA } from '../consts';
+---
+<Legal
+  title="Terms of Use | Applane"
+  heading="Terms of use"
+  description="Terms for using applane.in and Applane apps, and how quotes, website plans and support work."
+  path="/terms/"
+  updated="30 October 2026"
+>
+  <p>These terms apply to this website, <strong>applane.in</strong>, and to the apps Applane ("we", "us") builds and runs for clients on its subdomains. By using them, you agree to these terms. Your quote or written agreement with us comes first if anything there is different.</p>
+
+  <h2>1. Quotes and payment</h2>
+  <ul>
+    <li>Apps and most websites are quoted for each business. A quote tells you what we will build and what it costs.</li>
+    <li>We agree quotes and payments with you directly, over WhatsApp, phone or in person. This website does not take payments.</li>
+    <li>Prices are in Indian Rupees (₹). Taxes are applied as the law requires.</li>
+  </ul>
+
+  <h2>2. Static website plan (from ₹1,999)</h2>
+  <ul>
+    <li>The price is one-time for building the static website.</li>
+    <li>It includes hosting for the first year from launch.</li>
+    <li>The domain name is charged separately.</li>
+    <li>Hosting after the first year and domain renewals are charged separately. We will tell you the price before renewal.</li>
+    <li>A static website has no admin panel. Changes after launch are made by us.</li>
+  </ul>
+
+  <h2>3. Using Applane apps</h2>
+  <ul>
+    <li>Each client gets an app for its own business. The client decides who on its team gets access and what role they have.</li>
+    <li>Keep your sign-in secure and don't share accounts. You are responsible for what happens under your account.</li>
+    <li>The client is responsible for the business data it enters, such as rates, bills and customer details, and for checking that bills and tax details are right for its business.</li>
+    <li>Don't misuse the apps: no attempts to break security, access other businesses' data, or use the apps for anything illegal.</li>
+  </ul>
+
+  <h2>4. Your data</h2>
+  <p>The business data you put into an app is yours. We use it only to run the app for you, as described in our <a href="/privacy/">privacy policy</a>.</p>
+
+  <h2>5. Support</h2>
+  <p>We support our apps on WhatsApp and phone. We work to keep them available and fix problems quickly, but we can't promise that they will never be interrupted, for example during maintenance or an outage at a hosting provider.</p>
+
+  <h2>6. Our work</h2>
+  <p>Who owns the design and code we create is set out in your quote or agreement. Applane may show work it has built (without your private data) as an example of its work, unless you ask us not to.</p>
+
+  <h2>7. Liability</h2>
+  <p>We build and run our work with care. To the extent the law allows, we are not liable for indirect or consequential losses, such as lost profits, and our total liability for any claim is limited to the amount you paid us for the service in question in the twelve months before the claim.</p>
+
+  <h2>8. Changes</h2>
+  <p>We may update these terms. The date at the top shows when they last changed.</p>
+
+  <h2>9. Law</h2>
+  <p>These terms are governed by the laws of India. Courts in Hyderabad, Telangana have jurisdiction.</p>
+
+  <h2>10. Contact</h2>
+  <p>WhatsApp: <a href={WA.general} target="_blank" rel="noopener">{PHONE.display}</a> · Phone: <a href={`tel:${PHONE.e164}`}>{PHONE.display}</a></p>
+</Legal>

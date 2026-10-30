@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import GymMock from '../../components/GymMock.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { WA } from '../../consts';
+import { faqPage, ORG_ID } from '../../schema';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Apps', href: '/work/' },
+  { name: 'Gym Owners', href: '/work/gym-management-software/' },
+];
+
+const faqs = [
+  { q: 'Which biometric devices does it work with?', a: 'It connects to the gym\'s fingerprint or face door terminal, such as eSSL-type devices. Tell us the model you have and we will confirm before you start.' },
+  { q: 'What happens when a member\'s plan lapses?', a: 'The member can be blocked at the door. When they renew, access is restored without enrolling their face or finger again.' },
+  { q: 'Do members need to check in at the desk?', a: 'No. Attendance comes from door check-ins, so the front desk does not have to mark anyone.' },
+  { q: 'Can my staff use it?', a: 'Yes. There are separate owner and staff roles, so staff can handle members and renewals while reports stay with the owner.' },
+  { q: 'Which devices does it run on?', a: 'Phone, tablet and desktop.' },
+  { q: 'How much does it cost?', a: 'It depends on your gym and what you need. Tell us about your setup on WhatsApp and we will give you a quote.' },
+];
+
+const app = {
+  '@type': 'SoftwareApplication',
+  name: 'Gym Owners',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Gym management with biometric attendance',
+  operatingSystem: 'Web browser (phone, tablet and desktop)',
+  description: 'Gym management software with biometric door access. Members, plans, renewals and payments, attendance from door check-ins, and reports for the owner.',
+  url: 'https://applane.in/work/gym-management-software/',
+  publisher: { '@id': ORG_ID },
+  featureList: [
+    'Membership plans, renewals and payments',
+    'Biometric door access with fingerprint and face terminals',
+    'Attendance from door check-ins',
+    'Member visits, streaks and usual time of day',
+    'Members who have stopped coming',
+    'Owner reports, owner and staff roles',
+  ],
+  audience: { '@type': 'BusinessAudience', audienceType: 'Gym owners' },
+};
+---
+<Base
+  title="Gym Management Software with Biometric Attendance | Gym Owners"
+  description="Gym management software with biometric door access. Plans, renewals and payments, plus attendance from face or fingerprint check-ins. Book a free demo."
+  crumbs={crumbs}
+  schema={[app, faqPage(faqs)]}
+  waHref={WA.gymDemo}
+  headerTone="dark"
+>
+  <PageHero
+    eyebrow="Gym Owners · gym management"
+    title={'Run your gym without living at <span class="mark">the front desk.</span>'}
+    lede="Gym management software with biometric door access. Members, plans and renewals in one place, and attendance straight from your face or fingerprint terminal."
+    crumbs={crumbs}
+    tone="dark"
+    class="gym-hero"
+  >
+    <div class="btn-row" data-reveal style="--d:550">
+      <a class="btn btn--bright" href={WA.gymDemo} target="_blank" rel="noopener"><Icon name="whatsapp" /> Book a free demo</a>
+      <a class="btn btn--ghost" href="#try">Try the sample dashboard</a>
+    </div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="g-feat">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">What it does</p>
+          <h2 id="g-feat" data-split>Members, money and the door, <span class="mark">in one app.</span></h2>
+        </div>
+      </div>
+      <div class="bento">
+        <div class="card bento__a" data-reveal>
+          <div class="icon-tile"><Icon name="fingerprint" /></div>
+          <h3>Biometric door access</h3>
+          <p>Connects to the gym's fingerprint or face terminal (eSSL-type devices).</p>
+          <ul class="ticks">
+            <li>Add members to the device from the app</li>
+            <li>A member whose plan lapses can be blocked at the door</li>
+            <li>Access comes back on renewal, without enrolling the face or finger again</li>
+          </ul>
+        </div>
+        <div class="card bento__b" data-reveal style="--d:100">
+          <div class="icon-tile"><Icon name="calendar" /></div>
+          <h3>Members and plans</h3>
+          <p>Membership plans, renewals and payments, all in one place.</p>
+        </div>
+        <div class="card bento__c" data-reveal style="--d:200">
+          <div class="icon-tile"><Icon name="chart" /></div>
+          <h3>Attendance from the door</h3>
+          <ul class="ticks">
+            <li>Daily footfall</li>
+            <li>Each member's visits, streaks and usual time of day</li>
+            <li>Members who have stopped coming, so you can win them back before the plan lapses</li>
+          </ul>
+        </div>
+        <div class="card bento__d" data-reveal style="--d:100">
+          <div class="icon-tile"><Icon name="users" /></div>
+          <h3>Owner and staff roles</h3>
+          <p>Reports for the owner. Staff get only what they need.</p>
+        </div>
+        <div class="card bento__e" data-reveal style="--d:200">
+          <div class="icon-tile"><Icon name="devices" /></div>
+          <h3>Phone, tablet and desktop</h3>
+          <p>Check the gym from home, or run the desk from a tablet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section try-gym" id="try" aria-labelledby="g-try">
+    <div class="wrap try">
+      <div>
+        <p class="eyebrow">Try it</p>
+        <h2 id="g-try" data-split>A plan lapses. <span class="mark">The door knows.</span></h2>
+        <p class="lede" data-reveal>This sample dashboard uses made-up members. Press "Mark plan renewed" and the lapsed member's access comes back, with no re-enrolment at the device.</p>
+        <p class="lede" data-reveal>Below it is the list that pays for the app: members who have stopped coming while their plan is still running.</p>
+      </div>
+      <div data-reveal="scale" style="--d:150">
+        <GymMock interactive />
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqs} title="Questions gym owners ask" />
+
+  <CtaBand
+    title="Spend less time at the desk."
+    text="Book a free demo on WhatsApp. Tell us which door terminal you use and how many members you have."
+    waHref={WA.gymDemo}
+    waLabel="Book a free demo"
+  />
+</Base>
+
+<style>
+  :global(.gym-hero) { background: radial-gradient(90% 120% at 80% 0%, #2d5016 0%, #142409 55%, #0c120a 100%) !important; }
+  :global(.gym-hero) :global(.mark) { color: var(--gold) !important; }
+  :global(.gym-hero) :global(.eyebrow) { color: var(--gold) !important; }
+
+  .bento { display: grid; gap: 16px; }
+  .bento .card h3 { font-size: var(--step-1); }
+  .bento .card p { color: var(--ink-2); }
+  .bento .ticks { margin-top: 14px; }
+  .bento__a { background: #1d3510; color: #f4f1e6; border-color: #1d3510; }
+  .bento__a h3 { color: #fff; }
+  .bento__a p { color: #d8d2bb !important; }
+  .bento__a .icon-tile { background: rgb(201 168 76 / 0.18); color: var(--gold); }
+  .bento__a .ticks li::before { background-color: var(--gold); }
+  @media (min-width: 900px) {
+    .bento { grid-template-columns: repeat(3, 1fr); grid-auto-flow: dense; }
+    .bento__a { grid-row: span 2; }
+    .bento__c { grid-column: span 2; }
+    .bento__e { grid-column: 1 / -1; }
+  }
+
+  .try-gym { background: linear-gradient(180deg, #efe7cf, #e8dcb8); }
+  .try-gym .eyebrow { color: #6d5714; }
+  .try-gym :global(.mark) { color: #2d5016; }
+  .try { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 1000px) { .try { grid-template-columns: 1fr 1fr; gap: 72px; } }
+  .try :global(.gym) { max-width: 460px; margin-inline: auto; }
+</style>

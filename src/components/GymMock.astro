@@ -1,0 +1,130 @@
+---
+interface Props { interactive?: boolean; class?: string }
+const { interactive = false, class: cls } = Astro.props;
+// Made-up sample data.
+const week = [
+  { d: 'Mon', v: 92 }, { d: 'Tue', v: 86 }, { d: 'Wed', v: 78 }, { d: 'Thu', v: 81 },
+  { d: 'Fri', v: 70 }, { d: 'Sat', v: 64 }, { d: 'Sun', v: 38 },
+];
+const max = Math.max(...week.map((w) => w.v));
+---
+<figure class:list={['gym', cls]} data-gym={interactive ? '' : undefined}>
+  <div class="gym__panel">
+    <div class="gym__top">
+      <div>
+        <p class="gym__label">Check-ins today</p>
+        <p class="gym__big"><span data-count="86">86</span></p>
+      </div>
+      <span class="gym__peak">Busiest 6–8 am</span>
+    </div>
+
+    <div class="gym__bars" data-inview aria-label="Check-ins this week">
+      {week.map((w, i) => (
+        <div class="gym__bar" style={`--h:${(w.v / max) * 100}%; --i:${i}`}>
+          <span class="gym__fill" title={`${w.d}: ${w.v}`}></span>
+          <span class="gym__day">{w.d}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="gym__door">
+      <p class="gym__label">Door access · face / fingerprint terminal</p>
+      <div class="gym__member">
+        <span class="gym__avatar" style="--c:#C9A84C">AS</span>
+        <div class="gym__who"><b>Arjun S.</b><span>12-day streak · usually 6 am</span></div>
+        <span class="gym__status is-ok">Access allowed</span>
+      </div>
+      <div class="gym__member" data-lapsed>
+        <span class="gym__avatar" style="--c:#7FA36B">PR</span>
+        <div class="gym__who"><b>Priya R.</b><span data-plan>Plan lapsed 2 days ago</span></div>
+        <span class="gym__status is-blocked" data-status>Blocked at door</span>
+      </div>
+      {interactive && (
+        <button class="gym__renew" type="button" data-renew aria-pressed="false">Mark plan renewed</button>
+      )}
+    </div>
+
+    <div class="gym__away">
+      <p class="gym__label">Stopped coming · win them back</p>
+      <ul>
+        <li><b>Rahul K.</b><span>Last visit 9 days ago · plan ends in 12 days</span></li>
+        <li><b>Sana M.</b><span>Last visit 14 days ago · plan ends in 20 days</span></li>
+      </ul>
+    </div>
+  </div>
+  <figcaption class="gym__cap">{interactive ? 'Try it: renew the lapsed plan. Sample data.' : 'Sample dashboard with made-up data.'}</figcaption>
+</figure>
+
+<style>
+  .gym { margin: 0; }
+  .gym__panel {
+    background: linear-gradient(160deg, #1d3510, #0f1d08 70%);
+    color: #f4f1e6;
+    border-radius: 22px;
+    padding: clamp(18px, 3vw, 26px);
+    display: grid;
+    gap: 18px;
+    box-shadow: 0 30px 60px -30px rgb(12 19 16 / 0.6), inset 0 0 0 1px rgb(201 168 76 / 0.18);
+    font-size: 13px;
+  }
+  .gym p { margin: 0; }
+  .gym__top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+  .gym__label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #c7c0a4; margin-bottom: 8px !important; }
+  .gym__big { font-family: var(--font-head); font-size: 44px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: #fff; }
+  .gym__peak { font-size: 11.5px; font-weight: 600; padding: 6px 10px; border-radius: 999px; background: rgb(201 168 76 / 0.16); color: var(--gold); white-space: nowrap; }
+  .gym__bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; height: 110px; align-items: end; }
+  .gym__bar { height: 100%; display: grid; grid-template-rows: 1fr auto; gap: 6px; text-align: center; }
+  .gym__fill {
+    align-self: end;
+    height: var(--h);
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(to top, #2d5016, var(--gold));
+    transform-origin: bottom;
+  }
+  :global(.js) .gym__bars .gym__fill { transform: scaleY(0); transition: transform 1s var(--ease); transition-delay: calc(var(--i) * 70ms + 150ms); }
+  :global(.js) .gym__bars.is-in .gym__fill { transform: none; }
+  .gym__day { font-size: 10.5px; color: #c7c0a4; }
+  .gym__door, .gym__away { border-top: 1px solid rgb(244 241 230 / 0.12); padding-top: 14px; }
+  .gym__member { display: flex; align-items: center; gap: 10px; padding: 7px 0; }
+  .gym__avatar {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    display: grid; place-items: center; font-weight: 700; font-size: 11.5px;
+    background: var(--c); color: #10200a;
+  }
+  .gym__who { flex: 1; min-width: 0; display: grid; }
+  .gym__who b { font-weight: 600; color: #fff; }
+  .gym__who span { color: #c7c0a4; font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gym__status { font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 999px; white-space: nowrap; transition: background-color 0.4s, color 0.4s; }
+  .is-ok { background: rgb(24 210 110 / 0.16); color: #5ee59a; }
+  .is-blocked { background: rgb(240 96 72 / 0.16); color: #ff8f7a; }
+  .gym__renew {
+    margin-top: 8px; width: 100%; min-height: 42px; border-radius: 999px; border: 1px solid var(--gold);
+    background: transparent; color: var(--gold); font-weight: 600; cursor: pointer; transition: background-color 0.3s, color 0.3s;
+  }
+  .gym__renew:hover { background: var(--gold); color: #10200a; }
+  .gym__renew[aria-pressed='true'] { border-color: #5ee59a; color: #5ee59a; }
+  .gym__renew[aria-pressed='true']:hover { background: transparent; }
+  .gym__away ul { list-style: none; display: grid; gap: 8px; }
+  .gym__away li { display: grid; padding: 8px 10px; border-radius: 10px; background: rgb(244 241 230 / 0.05); }
+  .gym__away b { color: #fff; font-weight: 600; }
+  .gym__away span { color: #c7c0a4; font-size: 11.5px; }
+  .gym__cap { margin-top: 12px; font-size: 0.85rem; color: var(--ink-3); text-align: center; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gym]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('[data-renew]');
+    const status = root.querySelector<HTMLElement>('[data-status]');
+    const plan = root.querySelector<HTMLElement>('[data-plan]');
+    if (!btn || !status || !plan) return;
+    btn.addEventListener('click', () => {
+      const renewed = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(renewed));
+      btn.textContent = renewed ? 'Renewed · undo' : 'Mark plan renewed';
+      status.textContent = renewed ? 'Access restored' : 'Blocked at door';
+      status.classList.toggle('is-ok', renewed);
+      status.classList.toggle('is-blocked', !renewed);
+      plan.textContent = renewed ? 'Renewed today · no re-enrolment' : 'Plan lapsed 2 days ago';
+    });
+  });
+</script>

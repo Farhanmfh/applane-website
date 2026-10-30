@@ -1,0 +1,180 @@
+---
+import { SAMPLE_ITEMS, computeBill, money, rupees, amountInWords, lineQty } from '../lib/bill';
+interface Props { interactive?: boolean; class?: string }
+const { interactive = false, class: cls } = Astro.props;
+const bill = computeBill(SAMPLE_ITEMS);
+---
+<figure class:list={['bill', { 'bill--live': interactive }, cls]} data-bill={interactive ? '' : undefined}>
+  <div class="bill__paper">
+    <header class="bill__head">
+      <div>
+        <p class="bill__title">Tax Invoice</p>
+        <p class="bill__firm">Sample Distributors</p>
+        <p class="bill__meta">GSTIN 36XXXXX0000X1ZX · Hyderabad</p>
+      </div>
+      <div class="bill__no">
+        <p><span>Bill No.</span> 0142</p>
+        <p><span>Date</span> 30-10-2026</p>
+      </div>
+    </header>
+    <p class="bill__to"><span>Bill to</span> Sample Retailer, Kukatpally</p>
+
+    <table class="bill__table">
+      <thead>
+        <tr><th scope="col">Item</th><th scope="col">Qty</th><th scope="col">Rate</th><th scope="col">Amount</th></tr>
+      </thead>
+      <tbody>
+        {SAMPLE_ITEMS.map((item, i) => (
+          <tr data-row={i}>
+            <td>
+              <span class="bill__item">{item.name}</span>
+              <span class="bill__hsn">HSN {item.hsn}</span>
+            </td>
+            <td class="bill__qty">
+              {item.box > 0 && <span>{item.box} bx</span>}
+              {item.pcs > 0 && <span>{item.pcs} pc</span>}
+              <span class="bill__pcs">{lineQty(item)} pcs</span>
+            </td>
+            <td class="bill__rate">
+              {interactive ? (
+                <label>
+                  <span class="sr-only">Rate for {item.name}</span>
+                  <span class="bill__rs" aria-hidden="true">₹</span>
+                  <input type="number" inputmode="decimal" min="0" max="9999" step="0.5" value={item.rate} data-rate={i} />
+                </label>
+              ) : money(item.rate)}
+            </td>
+            <td class="bill__amt" data-amt={i}>{money(bill.lines[i].amount)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="bill__sum">
+      <dl>
+        <div><dt>Taxable value</dt><dd data-k="taxable">{money(bill.taxable)}</dd></div>
+        <div><dt>CGST 9%</dt><dd data-k="cgst">{money(bill.cgst)}</dd></div>
+        <div><dt>SGST 9%</dt><dd data-k="sgst">{money(bill.sgst)}</dd></div>
+        <div><dt>Round off</dt><dd data-k="roundOff">{money(bill.roundOff)}</dd></div>
+        <div class="bill__total"><dt>Bill total</dt><dd data-k="total">{rupees(bill.total)}</dd></div>
+        <div class="bill__due"><dt>Earlier due</dt><dd>{rupees(bill.previousDue)}</dd></div>
+        <div class="bill__grand"><dt>Total due</dt><dd data-k="due">{rupees(bill.due)}</dd></div>
+      </dl>
+    </div>
+    <p class="bill__words" data-k="words">{amountInWords(bill.total)}</p>
+    <p class="bill__bank">Bank: Sample Bank · A/c XXXX 1234 · IFSC SAMP0001234</p>
+    <div class="bill__actions" aria-hidden="true">
+      <span>Print A4</span>
+      <span class="bill__wa">Share on WhatsApp</span>
+    </div>
+  </div>
+  <figcaption class="bill__cap">{interactive ? 'Try it: change any rate. Sample data.' : 'Sample bill with made-up data.'}</figcaption>
+</figure>
+
+<style>
+  .bill { margin: 0; position: relative; }
+  .bill__paper {
+    background: #fff;
+    color: var(--ink);
+    border-radius: 18px;
+    padding: clamp(16px, 3vw, 26px);
+    box-shadow: 0 1px 0 rgb(12 19 16 / 0.04), 0 30px 60px -30px rgb(12 19 16 / 0.35), 0 0 0 1px rgb(12 19 16 / 0.06);
+    font-size: 12.5px;
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+  }
+  .bill p { margin: 0; }
+  .bill__head { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .bill__title { font-family: var(--font-head); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; color: var(--green); }
+  .bill__firm { font-family: var(--font-head); font-weight: 700; font-size: 16px; letter-spacing: -0.02em; }
+  .bill__meta, .bill__hsn, .bill__pcs, .bill__bank { color: var(--ink-3); font-size: 11px; }
+  .bill__no { text-align: right; white-space: nowrap; }
+  .bill__no span, .bill__to span { color: var(--ink-3); margin-right: 4px; }
+  .bill__to { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .bill__table { width: 100%; border-collapse: collapse; margin: 6px 0 4px; }
+  .bill__table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-3); padding: 8px 4px; border-bottom: 1px solid var(--line);
+  }
+  .bill__table th:nth-child(n + 3), .bill__table td:nth-child(n + 3) { text-align: right; }
+  .bill__table td { padding: 9px 4px; border-bottom: 1px dashed var(--line); vertical-align: top; }
+  .bill__item { display: block; font-weight: 600; }
+  .bill__qty span { display: block; white-space: nowrap; }
+  .bill__qty span:not(.bill__pcs) { display: inline; margin-right: 4px; }
+  .bill__amt { font-weight: 600; white-space: nowrap; }
+  .bill__rate { white-space: nowrap; }
+  .bill__rate label {
+    display: inline-flex; align-items: center; gap: 2px;
+    border: 1.5px solid var(--green-bright);
+    background: #effcf4;
+    border-radius: 8px;
+    padding: 2px 4px 2px 6px;
+    cursor: text;
+    transition: box-shadow 0.25s;
+  }
+  .bill__rate label:focus-within { box-shadow: 0 0 0 3px rgb(24 210 110 / 0.3); }
+  .bill__rate input {
+    width: 54px; border: 0; background: transparent; text-align: right; font-weight: 700;
+    font-variant-numeric: tabular-nums; padding: 2px 0; -moz-appearance: textfield; appearance: textfield;
+  }
+  .bill__rate input:focus { outline: none; }
+  .bill__rate input::-webkit-inner-spin-button { display: none; }
+  .bill__rs { color: var(--green-ink); font-weight: 700; }
+  .bill__sum { display: flex; justify-content: flex-end; padding-top: 8px; }
+  .bill__sum dl { margin: 0; min-width: min(240px, 100%); }
+  .bill__sum div { display: flex; justify-content: space-between; gap: 16px; padding: 3px 0; }
+  .bill__sum dt { color: var(--ink-2); }
+  .bill__sum dd { margin: 0; font-weight: 600; transition: color 0.3s; }
+  .bill__total { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 7px !important; font-size: 14px; }
+  .bill__total dt, .bill__total dd { color: var(--ink); font-weight: 700; }
+  .bill__due dd { color: #b4561b; }
+  .bill__grand { background: var(--mint); border-radius: 8px; padding: 6px 8px !important; margin-top: 6px; }
+  .bill__grand dt, .bill__grand dd { font-weight: 700; color: var(--green-ink); }
+  .bill__words { margin-top: 12px !important; padding: 8px 10px; border-radius: 8px; background: var(--bg); font-weight: 600; font-size: 12px; }
+  .bill__bank { margin-top: 8px !important; }
+  .bill__actions { display: flex; gap: 8px; margin-top: 14px; }
+  .bill__actions span {
+    flex: 1; text-align: center; padding: 9px; border-radius: 999px;
+    font-weight: 600; font-size: 12px; border: 1px solid var(--line);
+  }
+  .bill__actions .bill__wa { background: var(--green-ink); color: #fff; border-color: var(--green-ink); }
+  .bill__cap { margin-top: 12px; font-size: 0.85rem; color: var(--ink-3); text-align: center; }
+  :global(.section--dark) .bill__cap, :global(.on-dark) .bill__cap { color: var(--on-dark-2); }
+  .flash { animation: flash 0.7s var(--ease); }
+  @keyframes flash { 0% { color: var(--green-bright); transform: scale(1.06); } 100% { color: inherit; transform: none; } }
+  .bill__sum dd { display: inline-block; }
+</style>
+
+<script>
+  import { SAMPLE_ITEMS, computeBill, money, rupees, amountInWords } from '../lib/bill';
+
+  document.querySelectorAll<HTMLElement>('[data-bill]').forEach((root) => {
+    const items = SAMPLE_ITEMS.map((i) => ({ ...i }));
+    const set = (sel: string, text: string) => {
+      const el = root.querySelector<HTMLElement>(sel);
+      if (!el || el.textContent === text) return;
+      el.textContent = text;
+      el.classList.remove('flash');
+      void el.offsetWidth;
+      el.classList.add('flash');
+    };
+    const render = () => {
+      const b = computeBill(items);
+      b.lines.forEach((l, i) => set(`[data-amt="${i}"]`, money(l.amount)));
+      set('[data-k="taxable"]', money(b.taxable));
+      set('[data-k="cgst"]', money(b.cgst));
+      set('[data-k="sgst"]', money(b.sgst));
+      set('[data-k="roundOff"]', money(b.roundOff));
+      set('[data-k="total"]', rupees(b.total));
+      set('[data-k="due"]', rupees(b.due));
+      set('[data-k="words"]', amountInWords(b.total));
+    };
+    root.querySelectorAll<HTMLInputElement>('[data-rate]').forEach((input) => {
+      input.addEventListener('input', () => {
+        const v = Math.max(0, Math.min(9999, Number(input.value) || 0));
+        items[Number(input.dataset.rate)].rate = v;
+        render();
+      });
+    });
+  });
+</script>

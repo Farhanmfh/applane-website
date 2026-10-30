@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Steps from '../components/Steps.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { WA } from '../consts';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'How we work', href: '/how-we-work/' },
+];
+
+const appSteps = [
+  {
+    title: 'Tell us how your business runs',
+    text: 'Show us how you work today: your items, your bill, your notebook, your spreadsheet. On WhatsApp, on a call, or at your counter.',
+    you: 'Send photos of your bill, your item list and how your staff work.',
+    we: 'Ask questions until we understand your day, then give you a quote.',
+  },
+  {
+    title: 'We build the app around it and load your data',
+    text: 'We shape the app to how you already work, then import your items and customers so it is ready on day one.',
+    you: 'Check the app with your real items and tell us what feels off.',
+    we: 'Build it, load your data, and fix what you point out.',
+  },
+  {
+    title: 'We train your staff and stay on WhatsApp',
+    text: 'We show your team how to use it in plain language. After that, support is a WhatsApp message or a phone call away.',
+    you: 'Use it. Message us when something comes up.',
+    we: 'Answer on WhatsApp and phone, and keep the app working for you.',
+  },
+];
+
+const webSteps = [
+  { t: 'Brief', d: 'Tell us about your business and send sites you like.' },
+  { t: 'Design', d: 'We design the pages, mobile-first, and share them with you.' },
+  { t: 'Build', d: 'We build it in code: fast, animated where it helps, built to rank.' },
+  { t: 'Launch', d: 'We connect your domain, set up hosting and go live.' },
+];
+
+const gets = [
+  { i: 'wrench', t: 'Setup', d: 'We install it on your devices and set up staff logins and roles.' },
+  { i: 'database', t: 'Your data loaded', d: 'Items, rates and customers imported for you.' },
+  { i: 'graduation', t: 'Staff training', d: 'Your team learns it from us, not from a manual.' },
+  { i: 'chat', t: 'WhatsApp and phone support', d: 'Talk to the people who built it.' },
+];
+
+const howTo = {
+  '@type': 'ItemList',
+  name: 'How Applane builds a custom app',
+  itemListElement: appSteps.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.title, description: s.text })),
+};
+---
+<Base
+  title="How We Work | Custom Apps Built Around Your Business | Applane"
+  description="Tell us how your business runs. We build the app around it, load your data, train your staff and stay on WhatsApp for support. Here is how it works."
+  crumbs={crumbs}
+  schema={[howTo]}
+>
+  <PageHero
+    eyebrow="How we work"
+    title={'Three steps. <span class="mark">No long forms, no jargon.</span>'}
+    lede="You don't get a login and a help page. You get an app that fits your business, set up and loaded with your data, and people to call when you need them."
+    crumbs={crumbs}
+    tone="mint"
+  />
+
+  <section class="section" aria-labelledby="app-steps">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">For apps</p>
+          <h2 id="app-steps" data-split>From your notebook <span class="mark">to your app.</span></h2>
+        </div>
+      </div>
+      <Steps steps={appSteps} detailed />
+    </div>
+  </section>
+
+  <section class="section section--dark" aria-labelledby="gets-title">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">What you get</p>
+          <h2 id="gets-title" data-split>Not just software. <span class="mark">A team behind it.</span></h2>
+        </div>
+      </div>
+      <div class="grid grid--4">
+        {gets.map((g, idx) => (
+          <div class="card" data-reveal style={`--d:${idx * 90}`}>
+            <div class="icon-tile"><Icon name={g.i as any} /></div>
+            <h3>{g.t}</h3>
+            <p>{g.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="web-steps">
+    <div class="wrap">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">For websites</p>
+          <h2 id="web-steps" data-split>Brief, design, build, <span class="mark">launch.</span></h2>
+          <p class="lede" data-reveal>Static websites start at ₹1,999, one-time, with the first year of hosting included. The domain is charged separately.</p>
+        </div>
+        <a class="link-arrow" href="/websites/" data-reveal>See website options <Icon name="arrow" /></a>
+      </div>
+      <ol class="web-steps">
+        {webSteps.map((s, idx) => (
+          <li data-reveal style={`--d:${idx * 100}`}>
+            <span>{String(idx + 1).padStart(2, '0')}</span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand title="Step one is a message." text="Tell us how your business runs on WhatsApp. That's all it takes to start." waHref={WA.quote} waLabel="Tell us what you need" />
+</Base>
+
+<style>
+  .web-steps { list-style: none; display: grid; gap: 16px; }
+  @media (min-width: 720px) { .web-steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .web-steps { grid-template-columns: repeat(4, 1fr); } }
+  .web-steps li {
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    transition: transform 0.5s var(--ease), border-color 0.3s;
+  }
+  .web-steps li:hover { transform: translateY(-4px); border-color: var(--green); }
+  .web-steps span { font-family: var(--font-head); font-weight: 700; color: var(--green); font-size: 0.95rem; }
+  .web-steps h3 { margin: 14px 0 8px; }
+  .web-steps p { color: var(--ink-2); margin: 0; }
+</style>

@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { WA } from '../consts';
+---
+<Base title="Page not found | Applane" description="This page doesn't exist. Go back to the Applane home page." noindex headerTone="dark">
+  <section class="nf on-dark">
+    <div class="nf__lanes" aria-hidden="true">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice">
+        {Array.from({ length: 11 }, (_, i) => (
+          <path d={`M${600 + (i - 5) * 14} 420 L${600 + (i - 5) * 210} 800`} />
+        ))}
+      </svg>
+    </div>
+    <div class="wrap nf__inner">
+      <p class="nf__code">404</p>
+      <h1 data-split>Wrong lane.</h1>
+      <p class="lede">This page doesn't exist, or it has moved.</p>
+      <div class="btn-row">
+        <a class="btn btn--bright" href="/">Back to home <Icon name="arrow" /></a>
+        <a class="btn btn--ghost" href={WA.general} target="_blank" rel="noopener"><Icon name="whatsapp" /> Ask us on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 100svh; display: grid; place-items: center; background: var(--dark); color: #fff; position: relative; overflow: hidden; text-align: center; padding-top: var(--header-h); }
+  .nf__inner { position: relative; z-index: 1; display: grid; justify-items: center; }
+  .nf__code { font-family: var(--font-head); font-weight: 700; font-size: clamp(6rem, 22vw, 14rem); letter-spacing: -0.06em; line-height: 0.85; margin: 0; color: var(--green-bright); }
+  .nf h1 { color: #fff; font-size: var(--step-4); margin-top: 12px; }
+  .nf .lede { color: #c3d0c9; margin-bottom: 28px; }
+  .nf .btn-row { justify-content: center; }
+  .nf__lanes { position: absolute; inset: 0; }
+  .nf__lanes svg { width: 100%; height: 100%; }
+  .nf__lanes path { fill: none; stroke: var(--green-bright); stroke-opacity: 0.4; stroke-width: 2; stroke-dasharray: 10 18; animation: nf-lane 1.6s linear infinite; }
+  @keyframes nf-lane { to { stroke-dashoffset: -56; } }
+</style>
